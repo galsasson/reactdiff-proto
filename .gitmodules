@@ -1,0 +1,9 @@
+[submodule "external_addons/ofxInterface"]
+	path = external_addons/ofxInterface
+	url = git@github.com:local-projects/ofxInterface.git
+[submodule "external_addons/ofxTimeMeasurements"]
+	path = external_addons/ofxTimeMeasurements
+	url = git@github.com:local-projects/ofxTimeMeasurements.git
+[submodule "openFrameworks"]
+	path = openFrameworks
+	url = git@github.com:local-projects/openFrameworks.git
