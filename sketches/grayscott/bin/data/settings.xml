@@ -1,0 +1,10 @@
+<GrayScott>
+	<feedRate>0.054</feedRate>
+	<killRate>0.062</killRate>
+	<aDiffRate>0.2</aDiffRate>
+	<bDiffRate>0.1</bDiffRate>
+	<timestep>0.85</timestep>
+	<minColor>0.2</minColor>
+	<maxColor>0.815</maxColor>
+<GrayScott/>
+</GrayScott>

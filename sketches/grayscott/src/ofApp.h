@@ -1,6 +1,12 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxInterface.h"
+#include "ofxGui.h"
+
+#include "GrayScott.h"
+
+using namespace ofxInterface;
 
 class ofApp : public ofBaseApp{
 
@@ -20,5 +26,13 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+
+	ofxInterface::Node scene;
+
+	GrayScott* grayScott;
+
+	bool drawDebug;
+
+	ofxPanel gui;
 		
 };
