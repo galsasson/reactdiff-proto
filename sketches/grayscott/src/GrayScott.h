@@ -70,5 +70,6 @@ private:
 
 	ofFbo diffusionFlowFbo;
 	void drawRandomDiffusion(float x, float y);
+	void drawDiffusionBump(float x, float y);
 };
 #endif /* defined(__grayscott__GrayScott__) */

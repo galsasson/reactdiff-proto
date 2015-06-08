@@ -205,7 +205,11 @@ void GrayScott::onTouchDown(ofxInterface::TouchEvent &event)
 	ofVec2f local = toLocal(event.position);
 
 	if (bDiffusionMapMode) {
-		drawRandomDiffusion(local.x, local.y);
+//		for (int i=0; i<200; i++) {
+//			drawRandomDiffusion(ofRandom(0, diffusionFlowFbo.getWidth()), ofRandom(0, diffusionFlowFbo.getHeight()));
+//		}
+//		drawRandomDiffusion(local.x, local.y);
+		drawDiffusionBump(local.x, local.y);
 		return;
 	}
 
@@ -250,6 +254,9 @@ void GrayScott::onTouchUp(ofxInterface::TouchEvent &event)
 
 void GrayScott::drawRandomDiffusion(float x, float y)
 {
+	int xx=x;
+	int yy=y;
+
 	diffusionFlowFbo.begin();
 	float rad = ofRandom(50);
 	ofVec2f amount = ofVec2f(ofRandom(-0.2, 0.2),
@@ -258,6 +265,30 @@ void GrayScott::drawRandomDiffusion(float x, float y)
 	ofSetColor(ofFloatColor(0.5+amount.x, 0.5+amount.y, 0, 1));
 	ofDrawCircle(x, y, rad);
 	diffusionFlowFbo.end();
+}
+
+void GrayScott::drawDiffusionBump(float x, float y)
+{
+	ofVec2f p(x, y);
+
+	int rad = (int)ofRandom(50, 60);
+
+	diffusionFlowFbo.begin();
+	for (int yy = -rad; yy<rad; yy++) {
+		for (int xx = -rad; xx<rad; xx++) {
+			ofVec2f vec = ofVec2f(xx, yy);
+			if (vec.length() > rad) {
+				continue;
+			}
+
+			vec /= rad;
+			vec *= 0.2;
+			ofSetColor(ofFloatColor(0.5f+vec.x, 0.5f+vec.y, 0, 1));
+			ofDrawLine(x+xx, y+yy, x+xx, y+yy+1);
+		}
+	}
+	diffusionFlowFbo.end();
+
 }
 
 void GrayScott::clearDiffusionMap()
