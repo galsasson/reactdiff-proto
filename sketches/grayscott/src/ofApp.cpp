@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "ofxTimeMeasurements.h"
 
 //--------------------------------------------------------------
 void ofApp::setup()
@@ -6,9 +7,14 @@ void ofApp::setup()
 	ofLogNotice("ofApp") << "app started";
 
 	drawDebug = false;
-	ofDisableBlendMode();
-//	ofEnableAlphaBlending();
-//	ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+//	ofDisableBlendMode();
+	ofSetFrameRate(60);
+	ofEnableAlphaBlending();
+
+
+
+	TIME_SAMPLE_SET_FRAMERATE(ofGetTargetFrameRate());
+//	TIME_SAMPLE_DISABLE();
 
 
 
@@ -36,8 +42,15 @@ void ofApp::draw(){
 		scene.renderDebug();
 	}
 
+	ofSetColor(255, 255, 255, 128);
+	ofFill();
+	ofDrawRectangle(0, ofGetWindowHeight()-50, ofGetWindowWidth(), 50);
+
+	float y = ofGetWindowHeight()-35;
 	ofSetColor(0);
-	ofDrawBitmapString("Scale: " + ofToString(grayScott->getScale().x), 10, ofGetWindowHeight()-20);
+	ofDrawBitmapString("Frame Rate: " + ofToString(ofGetFrameRate()), 5, y);
+	y+=15;
+	ofDrawBitmapString("Scale: " + ofToString(grayScott->getScale().x), 5, y);
 
 	gui.draw();
 }
@@ -68,6 +81,24 @@ void ofApp::keyPressed(int key)
 	}
 	else if (key == ' ') {
 		grayScott->seedGrid();
+	}
+	else if (key == '0') {
+		grayScott->setScale(1);
+	}
+	else if (key == '1') {
+		grayScott->setScale(ofGetWindowWidth()/256);
+	}
+	else if (key == '2') {
+		grayScott->setScale(ofGetWindowWidth()/128);
+	}
+	else if (key == '3') {
+		grayScott->setScale(ofGetWindowWidth()/32);
+	}
+	else if (key == '4') {
+		grayScott->setScale(ofGetWindowWidth()/8);
+	}
+	else if (key == '5') {
+		grayScott->setScale(ofGetWindowWidth());
 	}
 
 }

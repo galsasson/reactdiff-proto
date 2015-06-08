@@ -19,19 +19,18 @@ GrayScott::GrayScott()
 
 	// took these from: http://www.karlsims.com/rd.html
 	params.setName("GrayScott");
-	params.add(feedRate.set("feedRate", 0.0557f, 0, 0.1f));
+	params.add(feedRate.set("feedRate", 0.055f, 0, 0.1f));
 	params.add(killRate.set("killRate", 0.062f, 0, 0.1f));
 	params.add(aDiffRate.set("aDiffRate", 1.0f, 0.0f, 1.0f));
 	params.add(bDiffRate.set("bDiffRate", 0.5f, 0.0f, 1.0f));
 	params.add(simSteps.set("Steps", 1, 1, 40));
 	params.add(timestep.set("timestep", 1.0f, 0.0f, 10.0f));
+	params.add(bRenderWithShader.set(false));
 	params.add(minColor.set("minColor", 0.2f, 0.0f, 1.0f));
 	params.add(maxColor.set("maxColor", 0.4f, 0.0f, 1.0f));
 
-
 	allocateFbos(getWidth(), getHeight());
 	seedGrid();
-
 
 	simShader.load("shaders/grayscott_simulation");
 	renderShader.load("shaders/grayscott_render");
@@ -79,21 +78,25 @@ void GrayScott::update(float dt)
 
 void GrayScott::draw()
 {
-	ofSetColor(255);
-	renderShader.begin();
-	renderShader.setUniformTexture("tex0", gridFbo->getTexture(), 0);
-	renderShader.setUniform2f("tex0_size", gridFbo->getWidth(), gridFbo->getHeight());
-	renderShader.setUniform1f("minColor", minColor);
-	renderShader.setUniform1f("maxColor", maxColor);
+	if (bRenderWithShader) {
+		renderShader.begin();
+		renderShader.setUniformTexture("tex0", gridFbo->getTexture(), 0);
+		renderShader.setUniform2f("tex0_size", gridFbo->getWidth(), gridFbo->getHeight());
+		renderShader.setUniform1f("minColor", minColor);
+		renderShader.setUniform1f("maxColor", maxColor);
 
-	ofPushMatrix();
-	ofTranslate(getWidth()/2, getHeight()/2);
-	ofSetColor(255);
-	plane.draw();
-	ofPopMatrix();
-//	gridFbo->draw(0, 0);
-
-	renderShader.end();
+		ofPushMatrix();
+		ofTranslate(getWidth()/2, getHeight()/2);
+		ofSetColor(255);
+		plane.draw();
+		ofPopMatrix();
+		
+		renderShader.end();
+	}
+	else {
+		ofSetColor(255);
+		gridFbo->draw(0, 0);
+	}
 }
 
 
@@ -102,7 +105,7 @@ void GrayScott::allocateFbos(int w, int h)
 	ofFbo::Settings s;
 	s.width = w;
 	s.height = h;
-	s.internalformat = GL_RGBA;
+	s.internalformat = GL_RGBA32F;
 	s.minFilter = GL_NEAREST;
 	s.maxFilter = GL_NEAREST;
 	s.wrapModeHorizontal = GL_REPEAT;
@@ -137,7 +140,7 @@ void GrayScott::simulationStep(float dt)
 
 	simShader.begin();
 	simShader.setUniformTexture("tex0", gridFbo->getTexture(), 0);
-	simShader.setUniform2f("tex0_size", getWidth(), getHeight());
+	simShader.setUniform2f("tex0_size", gridFbo->getWidth(), gridFbo->getHeight());
 	simShader.setUniform1f("feedRate", feedRate);
 	simShader.setUniform1f("killRate", killRate);
 	simShader.setUniform1f("aDiffRate", aDiffRate);

@@ -1,5 +1,5 @@
 #version 150
-precision mediump float;
+precision highp float;
 
 uniform sampler2D tex0;
 uniform vec2 tex0_size;
@@ -14,6 +14,24 @@ uniform float killRate;
 uniform float aDiffRate;
 uniform float bDiffRate;
 uniform float TIMESTEP;
+
+vec2 getDefaultLaplacian(vec2 p)
+{
+	vec2 n = p + vec2(0.0, 1.0) / tex0_size,
+	e = p + vec2(1.0, 0.0) / tex0_size,
+	s = p + vec2(0.0, -1.0) / tex0_size,
+	w = p + vec2(-1.0, 0.0) / tex0_size;
+
+	vec2 val = texture(tex0, p).xy,
+	lap = texture(tex0, n).xy
+	+ texture(tex0, e).xy
+	+ texture(tex0, s).xy
+	+ texture(tex0, w).xy
+	- 4.0 * val;
+
+	return lap;
+}
+
 
 vec2 getPatricioLaplacian(vec2 p)
 {
@@ -108,11 +126,12 @@ void main(){
 
 //	vec2 laplacian = getPatricioLaplacian(p);
 	vec2 laplacian = getGalLaplacian2(p);
+//	vec2 laplacian = getDefaultLaplacian(p);
 
-	vec2 delta = vec2(aDiffRate * laplacian.x*laplacian.x - val.x*val.y*val.y + feedRate * (1.0-val.x),
-					  bDiffRate * laplacian.y*laplacian.y + val.x*val.y*val.y - (killRate+feedRate) * val.y);
+	vec2 delta = vec2(aDiffRate * laplacian.x - val.x*val.y*val.y + feedRate * (1.0-val.x),
+					  bDiffRate * laplacian.y + val.x*val.y*val.y - (killRate+feedRate) * val.y);
 
-	fragColor = vec4(clamp(val + delta * TIMESTEP, vec2(0.0), vec2(1.0)), 0.0, 1.0);
+	fragColor = vec4(val + delta * TIMESTEP, 0.0, 1.0);
 
 //	fragColor = texture(tex0, varyingtexcoord.xy);
 //	fragColor = vec4(varyingtexcoord.x, varyingtexcoord.y, 0.0, 1.0);

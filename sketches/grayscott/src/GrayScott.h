@@ -43,6 +43,7 @@ private:
 	ofParameter<float> timestep;
 	ofParameter<float> minColor;
 	ofParameter<float> maxColor;
+	ofParameter<bool> bRenderWithShader;
 
 	ofShader simShader;
 	ofShader renderShader;
