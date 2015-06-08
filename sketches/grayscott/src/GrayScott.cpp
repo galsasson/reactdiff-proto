@@ -28,6 +28,9 @@ GrayScott::GrayScott()
 	params.add(bRenderWithShader.set(false));
 	params.add(minColor.set("minColor", 0.2f, 0.0f, 1.0f));
 	params.add(maxColor.set("maxColor", 0.4f, 0.0f, 1.0f));
+	params.add(borderWidth.set("borderWidth", 0.1f, 0.0f, 1.0f));
+	params.add(borderSoftness.set("borderSoftness", 0.01f, 0.0f, 0.3f));
+
 
 	allocateFbos(getWidth(), getHeight());
 	seedGrid();
@@ -70,8 +73,10 @@ void GrayScott::seedGrid()
 
 void GrayScott::update(float dt)
 {
-	for (int i=0; i<simSteps; i++) {
-		simulationStep(dt);
+	if (!bTouching) {
+		for (int i=0; i<simSteps; i++) {
+			simulationStep(dt);
+		}
 	}
 
 }
@@ -84,6 +89,8 @@ void GrayScott::draw()
 		renderShader.setUniform2f("tex0_size", gridFbo->getWidth(), gridFbo->getHeight());
 		renderShader.setUniform1f("minColor", minColor);
 		renderShader.setUniform1f("maxColor", maxColor);
+		renderShader.setUniform1f("borderWidth", borderWidth);
+		renderShader.setUniform1f("softness", borderSoftness);
 
 		ofPushMatrix();
 		ofTranslate(getWidth()/2, getHeight()/2);
@@ -94,6 +101,7 @@ void GrayScott::draw()
 		renderShader.end();
 	}
 	else {
+		ofClear(0);
 		ofSetColor(255);
 		gridFbo->draw(0, 0);
 	}
@@ -105,9 +113,9 @@ void GrayScott::allocateFbos(int w, int h)
 	ofFbo::Settings s;
 	s.width = w;
 	s.height = h;
-	s.internalformat = GL_RGBA32F;
+	s.internalformat = GL_RGB32F;
 	s.minFilter = GL_NEAREST;
-	s.maxFilter = GL_NEAREST;
+//	s.maxFilter = GL_NEAREST;
 	s.wrapModeHorizontal = GL_REPEAT;
 	s.wrapModeVertical = GL_REPEAT;
 

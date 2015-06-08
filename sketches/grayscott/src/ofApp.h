@@ -29,6 +29,7 @@ class ofApp : public ofBaseApp{
 
 	ofxInterface::Node scene;
 
+	ofParameter<float> scale;
 	GrayScott* grayScott;
 
 	bool drawDebug;

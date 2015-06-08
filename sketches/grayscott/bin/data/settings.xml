@@ -4,9 +4,12 @@
 	<aDiffRate>1</aDiffRate>
 	<bDiffRate>0.5</bDiffRate>
 	<timestep>1</timestep>
-	<minColor>0.2</minColor>
-	<maxColor>0.4</maxColor>
+	<minColor>0.345</minColor>
+	<maxColor>0.255</maxColor>
 <GrayScott/>
-<Steps>15</Steps>
-	<UnknownName>0</UnknownName>
+<Steps>23</Steps>
+	<UnknownName>1</UnknownName>
+<borderWidth>0.025</borderWidth>
+	<Scale>1</Scale>
+<borderSoftness>0.0105</borderSoftness>
 </GrayScott>

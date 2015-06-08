@@ -44,6 +44,8 @@ private:
 	ofParameter<float> minColor;
 	ofParameter<float> maxColor;
 	ofParameter<bool> bRenderWithShader;
+	ofParameter<float> borderWidth;
+	ofParameter<float> borderSoftness;
 
 	ofShader simShader;
 	ofShader renderShader;

@@ -25,12 +25,14 @@ void ofApp::setup()
 	scene.addChild(grayScott);
 
 	grayScott->setupGui(gui);
+	gui.add(scale.set("Scale", 1, 0, 200));
 	
 //	grayScott.setScale(ofGetWindowWidth()/grayScott.getWidth(), ofGetWindowHeight()/grayScott.getHeight(), 1.0f);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	grayScott->setScale(scale);
 	scene.updateSubtreePostOrder(1.0f / 60.0f);
 }
 
