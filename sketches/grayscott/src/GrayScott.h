@@ -27,13 +27,17 @@ public:
 	~GrayScott();
 
 	void setupGui(ofxPanel& panel);
-
 	void seedGrid();
+
+	void clearDiffusionMap();
 
 	void update(float dt);
 	void draw();
+	void drawSimulation();
+	void drawDiffusionMap();
 
 private:
+
 	ofParameterGroup params;
 	ofParameter<float> feedRate;
 	ofParameter<float> killRate;
@@ -46,6 +50,7 @@ private:
 	ofParameter<bool> bRenderWithShader;
 	ofParameter<float> borderWidth;
 	ofParameter<float> borderSoftness;
+	ofParameter<bool>bDiffusionMapMode;
 
 	ofShader simShader;
 	ofShader renderShader;
@@ -57,11 +62,13 @@ private:
 	ofFbo* nextGridFbo;
 	void simulationStep(float dt);
 
-
 	bool bTouching;
 	int touchId;
 	void onTouchDown(TouchEvent& event);
 	void onTouchMove(TouchEvent& event);
 	void onTouchUp(TouchEvent& event);
+
+	ofFbo diffusionFlowFbo;
+	void drawRandomDiffusion(float x, float y);
 };
 #endif /* defined(__grayscott__GrayScott__) */

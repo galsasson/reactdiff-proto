@@ -25,11 +25,12 @@ GrayScott::GrayScott()
 	params.add(bDiffRate.set("bDiffRate", 0.5f, 0.0f, 1.0f));
 	params.add(simSteps.set("Steps", 1, 1, 40));
 	params.add(timestep.set("timestep", 1.0f, 0.0f, 10.0f));
-	params.add(bRenderWithShader.set(false));
+	params.add(bRenderWithShader.set("render shader", false));
 	params.add(minColor.set("minColor", 0.2f, 0.0f, 1.0f));
 	params.add(maxColor.set("maxColor", 0.4f, 0.0f, 1.0f));
 	params.add(borderWidth.set("borderWidth", 0.1f, 0.0f, 1.0f));
 	params.add(borderSoftness.set("borderSoftness", 0.01f, 0.0f, 0.3f));
+	params.add(bDiffusionMapMode.set("diffusion map", false));
 
 
 	allocateFbos(getWidth(), getHeight());
@@ -73,15 +74,28 @@ void GrayScott::seedGrid()
 
 void GrayScott::update(float dt)
 {
+	if (bDiffusionMapMode) {
+		return;
+	}
+
 	if (!bTouching) {
 		for (int i=0; i<simSteps; i++) {
 			simulationStep(dt);
 		}
 	}
-
 }
 
 void GrayScott::draw()
+{
+	if (bDiffusionMapMode) {
+		drawDiffusionMap();
+	}
+	else {
+		drawSimulation();
+	}
+}
+
+void GrayScott::drawSimulation()
 {
 	if (bRenderWithShader) {
 		renderShader.begin();
@@ -97,14 +111,19 @@ void GrayScott::draw()
 		ofSetColor(255);
 		plane.draw();
 		ofPopMatrix();
-		
+
 		renderShader.end();
 	}
 	else {
-		ofClear(0);
 		ofSetColor(255);
 		gridFbo->draw(0, 0);
 	}
+}
+
+void GrayScott::drawDiffusionMap()
+{
+	ofSetColor(255);
+	diffusionFlowFbo.draw(0, 0);
 }
 
 
@@ -130,6 +149,12 @@ void GrayScott::allocateFbos(int w, int h)
 	nextGridFbo->begin();
 	ofClear(0);
 	nextGridFbo->end();
+
+	diffusionFlowFbo.allocate(s);
+	diffusionFlowFbo.begin();
+	ofClear(ofFloatColor(0.52f));
+//	ofClear(ofFloatColor(0.1, 0, 0, 1));
+	diffusionFlowFbo.end();
 }
 
 void GrayScott::swapFbos()
@@ -149,6 +174,7 @@ void GrayScott::simulationStep(float dt)
 	simShader.begin();
 	simShader.setUniformTexture("tex0", gridFbo->getTexture(), 0);
 	simShader.setUniform2f("tex0_size", gridFbo->getWidth(), gridFbo->getHeight());
+	simShader.setUniformTexture("diffusionFlowTex", diffusionFlowFbo.getTexture(), 1);
 	simShader.setUniform1f("feedRate", feedRate);
 	simShader.setUniform1f("killRate", killRate);
 	simShader.setUniform1f("aDiffRate", aDiffRate);
@@ -176,8 +202,13 @@ void GrayScott::onTouchDown(ofxInterface::TouchEvent &event)
 
 	touchId = event.id;
 	bTouching = true;
-
 	ofVec2f local = toLocal(event.position);
+
+	if (bDiffusionMapMode) {
+		drawRandomDiffusion(local.x, local.y);
+		return;
+	}
+
 	gridFbo->begin();
 	ofFill();
 	ofSetColor(B_COLOR);
@@ -192,6 +223,12 @@ void GrayScott::onTouchMove(ofxInterface::TouchEvent &event)
 	}
 
 	ofVec2f local = toLocal(event.position);
+
+	if (bDiffusionMapMode) {
+		drawRandomDiffusion(local.x, local.y);
+		return;
+	}
+
 	gridFbo->begin();
 	ofSetColor(B_COLOR);
 	ofFill();
@@ -209,5 +246,24 @@ void GrayScott::onTouchUp(ofxInterface::TouchEvent &event)
 	}
 
 	bTouching = false;
+}
+
+void GrayScott::drawRandomDiffusion(float x, float y)
+{
+	diffusionFlowFbo.begin();
+	float rad = ofRandom(50);
+	ofVec2f amount = ofVec2f(ofRandom(-0.2, 0.2),
+					  ofRandom(-0.2, 0.2));
+	ofFill();
+	ofSetColor(ofFloatColor(0.5+amount.x, 0.5+amount.y, 0, 1));
+	ofDrawCircle(x, y, rad);
+	diffusionFlowFbo.end();
+}
+
+void GrayScott::clearDiffusionMap()
+{
+	diffusionFlowFbo.begin();
+	ofClear(ofFloatColor(0.5f));
+	diffusionFlowFbo.end();
 }
 

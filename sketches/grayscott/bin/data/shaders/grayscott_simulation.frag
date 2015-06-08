@@ -5,6 +5,8 @@ uniform sampler2D tex0;
 uniform vec2 tex0_size;
 uniform vec4 globalColor;
 
+uniform sampler2D diffusionFlowTex;
+
 in vec2 varyingtexcoord;
 
 out vec4 fragColor;
@@ -85,7 +87,7 @@ vec2 getGalLaplacian(vec2 p)
 	+ texture(tex0, p+e).rg * vec2(0.2)
 	+ texture(tex0, p+s).rg * vec2(0.2)
 	+ texture(tex0, p+w).rg * vec2(0.2)
-	+ texture(tex0, p+n+e).rg * vec2(0.05)
+	+ texture(tex0, p+n+e).rg * vec2(0.15)
 	+ texture(tex0, p+e+s).rg * vec2(0.05)
 	+ texture(tex0, p+s+w).rg * vec2(0.05)
 	+ texture(tex0, p+w+n).rg * vec2(0.05);
@@ -93,7 +95,7 @@ vec2 getGalLaplacian(vec2 p)
 	return lap;
 }
 
-vec2 getGalLaplacian2(vec2 p)
+vec2 getGalLaplacian2(vec2 p, vec2 diffFlow)
 {
 
 	vec2 adjCoeff = vec2(0.2);
@@ -107,10 +109,10 @@ vec2 getGalLaplacian2(vec2 p)
 	vec2 val = texture(tex0, p).rg;
 
 	vec2 lap = -val
-	+ texture(tex0, p+n).rg * adjCoeff
-	+ texture(tex0, p+e).rg * adjCoeff
-	+ texture(tex0, p+s).rg * adjCoeff
-	+ texture(tex0, p+w).rg * adjCoeff
+	+ texture(tex0, p+n).rg * (adjCoeff + diffFlow.y)
+	+ texture(tex0, p+e).rg * (adjCoeff + diffFlow.x)
+	+ texture(tex0, p+s).rg * (adjCoeff - diffFlow.y)
+	+ texture(tex0, p+w).rg * (adjCoeff - diffFlow.x)
 	+ texture(tex0, p+n+e).rg * diagCoeff
 	+ texture(tex0, p+e+s).rg * diagCoeff
 	+ texture(tex0, p+s+w).rg * diagCoeff
@@ -123,9 +125,10 @@ void main(){
 	vec2 p = varyingtexcoord.xy;
 
 	vec2 val = texture(tex0, p).rg;
+	vec2 diffusionFlow = texture(diffusionFlowTex, p).rg - vec2(0.5, 0.5);
 
 //	vec2 laplacian = getPatricioLaplacian(p);
-	vec2 laplacian = getGalLaplacian2(p);
+	vec2 laplacian = getGalLaplacian2(p, diffusionFlow);
 //	vec2 laplacian = getDefaultLaplacian(p);
 
 	vec2 delta = vec2(aDiffRate * laplacian.x - val.x*val.y*val.y + feedRate * (1.0-val.x),

@@ -25,7 +25,7 @@ void ofApp::setup()
 	scene.addChild(grayScott);
 
 	grayScott->setupGui(gui);
-	gui.add(scale.set("Scale", 1, 0, 200));
+	gui.add(scale.set("Scale", 1, 1, 200));
 	
 //	grayScott.setScale(ofGetWindowWidth()/grayScott.getWidth(), ofGetWindowHeight()/grayScott.getHeight(), 1.0f);
 }
@@ -38,6 +38,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	ofClear(0);
+
 	scene.render();
 
 	if (drawDebug) {
@@ -83,6 +85,7 @@ void ofApp::keyPressed(int key)
 	}
 	else if (key == ' ') {
 		grayScott->seedGrid();
+		grayScott->clearDiffusionMap();
 	}
 	else if (key == '0') {
 		grayScott->setScale(1);
