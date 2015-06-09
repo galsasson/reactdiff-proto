@@ -31,10 +31,12 @@ GrayScott::GrayScott()
 	params.add(borderWidth.set("borderWidth", 0.1f, 0.0f, 1.0f));
 	params.add(borderSoftness.set("borderSoftness", 0.01f, 0.0f, 0.3f));
 	params.add(bDiffusionMapMode.set("diffusion map", false));
+	params.add(bUseGradientField.set("Use gradient field", false));
 
 
 	allocateFbos(getWidth(), getHeight());
 	seedGrid();
+	clearDiffusionMap();
 
 	simShader.load("shaders/grayscott_simulation");
 	renderShader.load("shaders/grayscott_render");
@@ -47,12 +49,19 @@ GrayScott::GrayScott()
 	ofAddListener(eventTouchMove, this, &GrayScott::onTouchMove);
 	ofAddListener(eventTouchUp, this, &GrayScott::onTouchUp);
 
+	gradField.setup(getWidth(), getHeight());
+	gradField.deactivate();
+	addChild(&gradField);
+
+	ofAddListener(ofEvents().keyPressed, this, &GrayScott::onKeyPressed);
+
 	ofLogNotice("GrayScott") << "initialized!";
 }
 
 void GrayScott::setupGui(ofxPanel& panel)
 {
 	panel.setup(params);
+	panel.add(gradField.params);
 }
 
 GrayScott::~GrayScott()
@@ -74,6 +83,8 @@ void GrayScott::seedGrid()
 
 void GrayScott::update(float dt)
 {
+	gradField.update(dt);
+	
 	if (bDiffusionMapMode) {
 		return;
 	}
@@ -134,9 +145,9 @@ void GrayScott::allocateFbos(int w, int h)
 	s.height = h;
 	s.internalformat = GL_RGB32F;
 	s.minFilter = GL_NEAREST;
-//	s.maxFilter = GL_NEAREST;
-	s.wrapModeHorizontal = GL_REPEAT;
-	s.wrapModeVertical = GL_REPEAT;
+	s.maxFilter = GL_NEAREST;
+//	s.wrapModeHorizontal = GL_REPEAT;
+//	s.wrapModeVertical = GL_REPEAT;
 
 	gridFbo = new ofFbo();
 	gridFbo->allocate(s);
@@ -175,6 +186,7 @@ void GrayScott::simulationStep(float dt)
 	simShader.setUniformTexture("tex0", gridFbo->getTexture(), 0);
 	simShader.setUniform2f("tex0_size", gridFbo->getWidth(), gridFbo->getHeight());
 	simShader.setUniformTexture("diffusionFlowTex", diffusionFlowFbo.getTexture(), 1);
+	simShader.setUniformTexture("gradientFieldTex", gradField.getTexture(), 2);
 	simShader.setUniform1f("feedRate", feedRate);
 	simShader.setUniform1f("killRate", killRate);
 	simShader.setUniform1f("aDiffRate", aDiffRate);
@@ -296,5 +308,17 @@ void GrayScott::clearDiffusionMap()
 	diffusionFlowFbo.begin();
 	ofClear(ofFloatColor(0.5f));
 	diffusionFlowFbo.end();
+}
+
+void GrayScott::onKeyPressed(ofKeyEventArgs &args)
+{
+	if (args.key == 'g') {
+		if (gradField.getVisible()) {
+			gradField.deactivate();
+		}
+		else {
+			gradField.activate();
+		}
+	}
 }
 

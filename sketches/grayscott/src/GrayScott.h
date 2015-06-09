@@ -14,6 +14,8 @@
 #include "ofxInterface.h"
 #include "ofxGui.h"
 
+#include "GradientField.h"
+
 #define A_COLOR ofColor(255, 0, 0)
 #define B_COLOR ofColor(0, 255, 0)
 
@@ -50,7 +52,8 @@ private:
 	ofParameter<bool> bRenderWithShader;
 	ofParameter<float> borderWidth;
 	ofParameter<float> borderSoftness;
-	ofParameter<bool>bDiffusionMapMode;
+	ofParameter<bool> bDiffusionMapMode;
+	ofParameter<bool> bUseGradientField;
 
 	ofShader simShader;
 	ofShader renderShader;
@@ -71,5 +74,9 @@ private:
 	ofFbo diffusionFlowFbo;
 	void drawRandomDiffusion(float x, float y);
 	void drawDiffusionBump(float x, float y);
+
+	GradientField gradField;
+
+	void onKeyPressed(ofKeyEventArgs& args);
 };
 #endif /* defined(__grayscott__GrayScott__) */

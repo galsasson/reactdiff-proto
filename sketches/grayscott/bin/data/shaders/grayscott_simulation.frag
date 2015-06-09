@@ -6,13 +6,14 @@ uniform vec2 tex0_size;
 uniform vec4 globalColor;
 
 uniform sampler2D diffusionFlowTex;
+uniform sampler2D gradientFieldTex;
 
 in vec2 varyingtexcoord;
 
 out vec4 fragColor;
 
-uniform float feedRate;
-uniform float killRate;
+//uniform float feedRate;
+//uniform float killRate;
 uniform float aDiffRate;
 uniform float bDiffRate;
 uniform float TIMESTEP;
@@ -124,12 +125,16 @@ vec2 getGalLaplacian2(vec2 p, vec2 diffFlow)
 void main(){
 	vec2 p = varyingtexcoord.xy;
 
+	float feedRate = texture(gradientFieldTex, p).r;
+	float killRate = texture(gradientFieldTex, p).g;
+
 	vec2 val = texture(tex0, p).rg;
 	vec2 diffusionFlow = texture(diffusionFlowTex, p).rg - vec2(0.5, 0.5);
 
 //	vec2 laplacian = getPatricioLaplacian(p);
 	vec2 laplacian = getGalLaplacian2(p, diffusionFlow);
 //	vec2 laplacian = getDefaultLaplacian(p);
+
 
 	vec2 delta = vec2(aDiffRate * laplacian.x - val.x*val.y*val.y + feedRate * (1.0-val.x),
 					  bDiffRate * laplacian.y + val.x*val.y*val.y - (killRate+feedRate) * val.y);

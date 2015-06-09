@@ -12,4 +12,17 @@
 <borderWidth>0.025</borderWidth>
 	<Scale>1</Scale>
 <borderSoftness>0.0105</borderSoftness>
+<render_shader>1</render_shader>
+	<diffusion_map>0</diffusion_map>
+<Use_gradient_field>0</Use_gradient_field>
+	<Gradient_Field>
+		<Default_Feed>0.055</Default_Feed>
+		<Default_Kill>0.062</Default_Kill>
+		<Feed_0>0.055</Feed_0>
+		<Kill_0>0.062</Kill_0>
+		<Feed_1>0.055</Feed_1>
+		<Kill_1>0.062</Kill_1>
+		<Feed_2>0.055</Feed_2>
+		<Kill_2>0.062</Kill_2>
+	</Gradient_Field>
 </GrayScott>

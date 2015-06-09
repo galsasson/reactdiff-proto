@@ -11,6 +11,7 @@
 		1D54A3D1C2CCEACF3844B3EC /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A5F76FF5EC351A3A115DF8E /* ofxBaseGui.cpp */; };
 		1D7223480EF577F7398744F8 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08E944637C72FC1B33CE6773 /* NetworkingUtils.cpp */; };
 		2A1D81CD1B1B574F00CE8A9D /* GrayScott.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A1D81CB1B1B574F00CE8A9D /* GrayScott.cpp */; };
+		2A52CAB01B26F6960098F17E /* GradientField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A52CAAE1B26F6960098F17E /* GradientField.cpp */; };
 		2A6B580D1B1B552D00FD07DF /* BitmapTextButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A6B57F91B1B552D00FD07DF /* BitmapTextButton.cpp */; };
 		2A6B580E1B1B552D00FD07DF /* SolidColorPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A6B57FB1B1B552D00FD07DF /* SolidColorPanel.cpp */; };
 		2A6B580F1B1B552D00FD07DF /* TextureButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A6B57FD1B1B552D00FD07DF /* TextureButton.cpp */; };
@@ -87,6 +88,8 @@
 		2A1D81CB1B1B574F00CE8A9D /* GrayScott.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GrayScott.cpp; sourceTree = "<group>"; };
 		2A1D81CC1B1B574F00CE8A9D /* GrayScott.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrayScott.h; sourceTree = "<group>"; };
 		2A1D81CE1B1B679300CE8A9D /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = bin/data; sourceTree = "<group>"; };
+		2A52CAAE1B26F6960098F17E /* GradientField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GradientField.cpp; sourceTree = "<group>"; };
+		2A52CAAF1B26F6960098F17E /* GradientField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientField.h; sourceTree = "<group>"; };
 		2A6B57F91B1B552D00FD07DF /* BitmapTextButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BitmapTextButton.cpp; sourceTree = "<group>"; };
 		2A6B57FA1B1B552D00FD07DF /* BitmapTextButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitmapTextButton.h; sourceTree = "<group>"; };
 		2A6B57FB1B1B552D00FD07DF /* SolidColorPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SolidColorPanel.cpp; sourceTree = "<group>"; };
@@ -415,6 +418,8 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				2A1D81CB1B1B574F00CE8A9D /* GrayScott.cpp */,
 				2A1D81CC1B1B574F00CE8A9D /* GrayScott.h */,
+				2A52CAAE1B26F6960098F17E /* GradientField.cpp */,
+				2A52CAAF1B26F6960098F17E /* GradientField.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -562,6 +567,7 @@
 				AFD853E250ADB382E9A76A4C /* ofxOscReceiver.cpp in Sources */,
 				1110B7683CF26BDDECD16873 /* ofxOscSender.cpp in Sources */,
 				2A6B58131B1B552D00FD07DF /* VirtualTouch.cpp in Sources */,
+				2A52CAB01B26F6960098F17E /* GradientField.cpp in Sources */,
 				2A6B58281B1B553800FD07DF /* ofxTimeMeasurements.cpp in Sources */,
 				84EE99C779A301E5D63CDA9F /* IpEndpointName.cpp in Sources */,
 				1D7223480EF577F7398744F8 /* NetworkingUtils.cpp in Sources */,
