@@ -14,8 +14,8 @@ out vec4 fragColor;
 
 //uniform float feedRate;
 //uniform float killRate;
-uniform float aDiffRate;
-uniform float bDiffRate;
+//uniform float aDiffRate;
+//uniform float bDiffRate;
 uniform float TIMESTEP;
 
 vec2 getDefaultLaplacian(vec2 p)
@@ -114,10 +114,10 @@ vec2 getGalLaplacian2(vec2 p, vec2 diffFlow)
 	+ texture(tex0, p+e).rg * (adjCoeff + diffFlow.x)
 	+ texture(tex0, p+s).rg * (adjCoeff - diffFlow.y)
 	+ texture(tex0, p+w).rg * (adjCoeff - diffFlow.x)
-	+ texture(tex0, p+n+e).rg * diagCoeff
-	+ texture(tex0, p+e+s).rg * diagCoeff
-	+ texture(tex0, p+s+w).rg * diagCoeff
-	+ texture(tex0, p+w+n).rg * diagCoeff;
+	+ texture(tex0, p+n+e).rg * diagCoeff + diffFlow.y + diffFlow.x
+	+ texture(tex0, p+e+s).rg * diagCoeff + diffFlow.x - diffFlow.y
+	+ texture(tex0, p+s+w).rg * diagCoeff - diffFlow.y - diffFlow.x
+	+ texture(tex0, p+w+n).rg * diagCoeff - diffFlow.x + diffFlow.y;
 
 	return lap;
 }
@@ -127,6 +127,8 @@ void main(){
 
 	float feedRate = texture(gradientFieldTex, p).r;
 	float killRate = texture(gradientFieldTex, p).g;
+	float aDiffRate = texture(gradientFieldTex, p).b*10;
+	float bDiffRate = texture(gradientFieldTex, p).b*5;
 
 	vec2 val = texture(tex0, p).rg;
 	vec2 diffusionFlow = texture(diffusionFlowTex, p).rg - vec2(0.5, 0.5);

@@ -21,8 +21,8 @@ GrayScott::GrayScott()
 	params.setName("GrayScott");
 	params.add(feedRate.set("feedRate", 0.055f, 0, 0.1f));
 	params.add(killRate.set("killRate", 0.062f, 0, 0.1f));
-	params.add(aDiffRate.set("aDiffRate", 1.0f, 0.0f, 1.0f));
-	params.add(bDiffRate.set("bDiffRate", 0.5f, 0.0f, 1.0f));
+	params.add(aDiffRate.set("aDiffRate", 1.0f, 0.0f, 10.0f));
+	params.add(bDiffRate.set("bDiffRate", 0.5f, 0.0f, 5.0f));
 	params.add(simSteps.set("Steps", 1, 1, 40));
 	params.add(timestep.set("timestep", 1.0f, 0.0f, 10.0f));
 	params.add(bRenderWithShader.set("render shader", false));
@@ -143,7 +143,7 @@ void GrayScott::allocateFbos(int w, int h)
 	ofFbo::Settings s;
 	s.width = w;
 	s.height = h;
-	s.internalformat = GL_RGB32F;
+	s.internalformat = GL_RGBA32F;
 	s.minFilter = GL_NEAREST;
 	s.maxFilter = GL_NEAREST;
 //	s.wrapModeHorizontal = GL_REPEAT;

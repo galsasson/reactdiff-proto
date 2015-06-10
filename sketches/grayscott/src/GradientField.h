@@ -30,6 +30,8 @@ public:
 
 private:
 
+	ofShader renderShader;
+	ofPlanePrimitive plane;
 
 	ofFbo fbo;
 	bool bFboDirty;
@@ -43,8 +45,13 @@ private:
 	void initParams();
 	ofParameter<float> defaultFeed;
 	ofParameter<float> defaultKill;
+	ofParameter<float> defaultADiffRate;
+//	ofParameter<float> defaultBDiffRate;
 	ofParameter<float> feedValues[3];
 	ofParameter<float> killValues[3];
+	ofParameter<float> aDiffValues[3];
+//	ofParameter<float> bDiffValues[3];
+
 	void setDefaults();
 	void onParamChanged(float& param);
 };

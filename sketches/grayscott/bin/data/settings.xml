@@ -3,9 +3,9 @@
 	<killRate>0.062</killRate>
 	<aDiffRate>1</aDiffRate>
 	<bDiffRate>0.5</bDiffRate>
-	<timestep>1</timestep>
-	<minColor>0.345</minColor>
-	<maxColor>0.255</maxColor>
+	<timestep>0.25</timestep>
+	<minColor>0.49</minColor>
+	<maxColor>0.16</maxColor>
 <GrayScott/>
 <Steps>23</Steps>
 	<UnknownName>1</UnknownName>
@@ -18,11 +18,21 @@
 	<Gradient_Field>
 		<Default_Feed>0.055</Default_Feed>
 		<Default_Kill>0.062</Default_Kill>
-		<Feed_0>0.055</Feed_0>
+		<Feed_0>0.0260204</Feed_0>
 		<Kill_0>0.062</Kill_0>
-		<Feed_1>0.055</Feed_1>
+		<Feed_1>0.0494898</Feed_1>
 		<Kill_1>0.062</Kill_1>
-		<Feed_2>0.055</Feed_2>
-		<Kill_2>0.062</Kill_2>
+		<Feed_2>0.0142857</Feed_2>
+		<Kill_2>0.0576531</Kill_2>
+	<Default_A_Diff>0.1</Default_A_Diff>
+		<A_Diff_0>0.00510204</A_Diff_0>
+		<A_Diff_1>0.219388</A_Diff_1>
+		<A_Diff_2>0.1</A_Diff_2>
+	<Default_Diffusion>0.1</Default_Diffusion>
+		<Diffusion_1>0.0459184</Diffusion_1>
+		<Diffusion_2>0.5</Diffusion_2>
+		<Feed_3>0.055</Feed_3>
+		<Kill_3>0.0668367</Kill_3>
+		<Diffusion_3>0.1</Diffusion_3>
 	</Gradient_Field>
 </GrayScott>
