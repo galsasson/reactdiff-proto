@@ -33,6 +33,9 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update(){
 	grayScott->setScale(scale);
+	grayScott->setPosition((ofGetWindowWidth() - grayScott->getLocalWidth()) / 2 + translate.x,
+						   (ofGetWindowHeight() - grayScott->getLocalHeight()) / 2 + translate.y);
+
 	scene.updateSubtreePostOrder(1.0f / 60.0f);
 }
 
@@ -66,44 +69,45 @@ void ofApp::keyPressed(int key)
 		drawDebug = !drawDebug;
 	}
 	else if (key == '=') {
-		grayScott->setScale(grayScott->getScale()+0.1f);
+		scale *= 2;
 	}
 	else if (key == '-') {
-		grayScott->setScale(grayScott->getScale()-0.1f);
+		scale /= 2;
 	}
 	else if (key == OF_KEY_RIGHT) {
-		grayScott->move(-100, 0, 0);
+		translate.x -= 100;
 	}
 	else if (key == OF_KEY_LEFT) {
-		grayScott->move(100, 0, 0);
+		translate.x += 100;
 	}
 	else if (key == OF_KEY_UP) {
-		grayScott->move(0, 100, 0);
+		translate.y += 100;
 	}
 	else if (key == OF_KEY_DOWN) {
-		grayScott->move(0, -100, 0);
+		translate.y -= 100;
 	}
 	else if (key == ' ') {
 		grayScott->seedGrid();
 		grayScott->clearDiffusionMap();
 	}
 	else if (key == '0') {
-		grayScott->setScale(1);
+		translate = ofVec2f(0, 0);
+		scale = 1;
 	}
 	else if (key == '1') {
-		grayScott->setScale(ofGetWindowWidth()/256);
+		scale = ofGetWindowWidth()/256;
 	}
 	else if (key == '2') {
-		grayScott->setScale(ofGetWindowWidth()/128);
+		scale = ofGetWindowWidth()/128;
 	}
 	else if (key == '3') {
-		grayScott->setScale(ofGetWindowWidth()/32);
+		scale = ofGetWindowWidth()/32;
 	}
 	else if (key == '4') {
-		grayScott->setScale(ofGetWindowWidth()/8);
+		scale = ofGetWindowWidth()/8;
 	}
 	else if (key == '5') {
-		grayScott->setScale(ofGetWindowWidth());
+		scale = ofGetWindowWidth();
 	}
 
 }
