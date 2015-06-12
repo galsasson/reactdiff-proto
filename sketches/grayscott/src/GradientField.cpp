@@ -47,8 +47,10 @@ void GradientField::update(float dt)
 		fbo.begin();
 		ofClear(ofFloatColor(defaultFeed, defaultKill, defaultADiffRate, 1.0));//defaultBDiffRate));
 
-		ofSetColor(255);
-		vbo.drawElements(GL_TRIANGLES, 6*3);
+		if (bUseGradientField) {
+			ofSetColor(255);
+			vbo.drawElements(GL_TRIANGLES, 6*3);
+		}
 
 		fbo.end();
 
@@ -145,22 +147,27 @@ void GradientField::initParams()
 {
 	setDefaults();
 
+
+
 	params.setName("Gradient Field");
+	params.add(bUseGradientField.set("Use gradient field", true));
+	bUseGradientField.addListener(this, &GradientField::onBoolParamChanged);
+
 	params.add(defaultFeed);
-	defaultFeed.addListener(this, &GradientField::onParamChanged);
+	defaultFeed.addListener(this, &GradientField::onFloatParamChanged);
 	params.add(defaultKill);
-	defaultKill.addListener(this, &GradientField::onParamChanged);
+	defaultKill.addListener(this, &GradientField::onFloatParamChanged);
 	params.add(defaultADiffRate);
-	defaultADiffRate.addListener(this, &GradientField::onParamChanged);
+	defaultADiffRate.addListener(this, &GradientField::onFloatParamChanged);
 //	params.add(defaultBDiffRate);
 //	defaultBDiffRate.addListener(this, &GradientField::onParamChanged);
 	for (int i=0; i<3; i++) {
 		params.add(feedValues[i]);
-		feedValues[i].addListener(this, &GradientField::onParamChanged);
+		feedValues[i].addListener(this, &GradientField::onFloatParamChanged);
 		params.add(killValues[i]);
-		killValues[i].addListener(this, &GradientField::onParamChanged);
+		killValues[i].addListener(this, &GradientField::onFloatParamChanged);
 		params.add(aDiffValues[i]);
-		aDiffValues[i].addListener(this, &GradientField::onParamChanged);
+		aDiffValues[i].addListener(this, &GradientField::onFloatParamChanged);
 //		params.add(bDiffValues[i]);
 //		bDiffValues[i].addListener(this, &GradientField::onParamChanged);
 	}
@@ -181,11 +188,15 @@ void GradientField::setDefaults()
 	}
 }
 
-void GradientField::onParamChanged(float &param)
+void GradientField::onFloatParamChanged(float &param)
 {
 	bModelColorsDirty = true;
 }
 
+void GradientField::onBoolParamChanged(bool &params)
+{
+	bModelColorsDirty = true;
+}
 
 
 

@@ -31,7 +31,6 @@ GrayScott::GrayScott()
 	params.add(borderWidth.set("borderWidth", 0.1f, 0.0f, 1.0f));
 	params.add(borderSoftness.set("borderSoftness", 0.01f, 0.0f, 0.3f));
 	params.add(bDiffusionMapMode.set("diffusion map", false));
-	params.add(bUseGradientField.set("Use gradient field", false));
 
 
 	allocateFbos(getWidth(), getHeight());
@@ -39,6 +38,7 @@ GrayScott::GrayScott()
 	clearDiffusionMap();
 
 	simShader.load("shaders/grayscott_simulation");
+//	simShader.load("shaders/turing_simulation");
 	renderShader.load("shaders/grayscott_render");
 //	plane.mapTexCoordsFromTexture(gridFbo->getTexture());
 	plane.mapTexCoords(0, 0, 1, 1);
@@ -185,7 +185,7 @@ void GrayScott::simulationStep(float dt)
 	simShader.begin();
 	simShader.setUniformTexture("tex0", gridFbo->getTexture(), 0);
 	simShader.setUniform2f("tex0_size", gridFbo->getWidth(), gridFbo->getHeight());
-	simShader.setUniformTexture("diffusionFlowTex", diffusionFlowFbo.getTexture(), 1);
+//	simShader.setUniformTexture("diffusionFlowTex", diffusionFlowFbo.getTexture(), 1);
 	simShader.setUniformTexture("gradientFieldTex", gradField.getTexture(), 2);
 	simShader.setUniform1f("feedRate", feedRate);
 	simShader.setUniform1f("killRate", killRate);

@@ -1,11 +1,8 @@
 #version 150
-precision highp float;
 
 uniform sampler2D tex0;
 uniform vec2 tex0_size;
 uniform vec4 globalColor;
-
-uniform sampler2D diffusionFlowTex;
 uniform sampler2D gradientFieldTex;
 
 in vec2 varyingtexcoord;
@@ -96,7 +93,7 @@ vec2 getGalLaplacian(vec2 p)
 	return lap;
 }
 
-vec2 getGalLaplacian2(vec2 p, vec2 diffFlow)
+vec2 getGalLaplacian2(vec2 p)
 {
 
 	vec2 adjCoeff = vec2(0.2);
@@ -110,14 +107,14 @@ vec2 getGalLaplacian2(vec2 p, vec2 diffFlow)
 	vec2 val = texture(tex0, p).rg;
 
 	vec2 lap = -val
-	+ texture(tex0, p+n).rg * (adjCoeff + diffFlow.y)
-	+ texture(tex0, p+e).rg * (adjCoeff + diffFlow.x)
-	+ texture(tex0, p+s).rg * (adjCoeff - diffFlow.y)
-	+ texture(tex0, p+w).rg * (adjCoeff - diffFlow.x)
-	+ texture(tex0, p+n+e).rg * diagCoeff + diffFlow.y + diffFlow.x
-	+ texture(tex0, p+e+s).rg * diagCoeff + diffFlow.x - diffFlow.y
-	+ texture(tex0, p+s+w).rg * diagCoeff - diffFlow.y - diffFlow.x
-	+ texture(tex0, p+w+n).rg * diagCoeff - diffFlow.x + diffFlow.y;
+	+ texture(tex0, p+n).rg * adjCoeff
+	+ texture(tex0, p+e).rg * adjCoeff
+	+ texture(tex0, p+s).rg * adjCoeff
+	+ texture(tex0, p+w).rg * adjCoeff
+	+ texture(tex0, p+n+e).rg * diagCoeff
+	+ texture(tex0, p+e+s).rg * diagCoeff
+	+ texture(tex0, p+s+w).rg * diagCoeff
+	+ texture(tex0, p+w+n).rg * diagCoeff;
 
 	return lap;
 }
@@ -131,10 +128,10 @@ void main(){
 	float bDiffRate = texture(gradientFieldTex, p).b*5;
 
 	vec2 val = texture(tex0, p).rg;
-	vec2 diffusionFlow = texture(diffusionFlowTex, p).rg - vec2(0.5, 0.5);
+//	vec2 diffusionFlow = texture(diffusionFlowTex, p).rg - vec2(0.5, 0.5);
 
 //	vec2 laplacian = getPatricioLaplacian(p);
-	vec2 laplacian = getGalLaplacian2(p, diffusionFlow);
+	vec2 laplacian = getGalLaplacian2(p);
 //	vec2 laplacian = getDefaultLaplacian(p);
 
 

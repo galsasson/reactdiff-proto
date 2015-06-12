@@ -92,7 +92,7 @@ void ofApp::keyPressed(int key)
 	}
 	else if (key == '0') {
 		translate = ofVec2f(0, 0);
-		scale = 1;
+		scale = 1;	
 	}
 	else if (key == '1') {
 		scale = ofGetWindowWidth()/256;

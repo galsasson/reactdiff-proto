@@ -43,6 +43,7 @@ private:
 	void setModelColors();
 
 	void initParams();
+	ofParameter<bool> bUseGradientField;
 	ofParameter<float> defaultFeed;
 	ofParameter<float> defaultKill;
 	ofParameter<float> defaultADiffRate;
@@ -53,6 +54,7 @@ private:
 //	ofParameter<float> bDiffValues[3];
 
 	void setDefaults();
-	void onParamChanged(float& param);
+	void onFloatParamChanged(float& param);
+	void onBoolParamChanged(bool& params);
 };
 #endif /* defined(__grayscott__GradientField__) */

@@ -1,5 +1,4 @@
 #version 150
-precision highp float;
 
 in vec4 position;
 in vec2 texcoord;
