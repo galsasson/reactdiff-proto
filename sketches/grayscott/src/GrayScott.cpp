@@ -19,18 +19,19 @@ GrayScott::GrayScott()
 
 	// took these from: http://www.karlsims.com/rd.html
 	params.setName("GrayScott");
-	params.add(feedRate.set("feedRate", 0.055f, 0, 0.1f));
-	params.add(killRate.set("killRate", 0.062f, 0, 0.1f));
-	params.add(aDiffRate.set("aDiffRate", 1.0f, 0.0f, 10.0f));
-	params.add(bDiffRate.set("bDiffRate", 0.5f, 0.0f, 5.0f));
 	params.add(simSteps.set("Steps", 1, 1, 40));
 	params.add(timestep.set("timestep", 1.0f, 0.0f, 10.0f));
-	params.add(bRenderWithShader.set("render shader", false));
-	params.add(minColor.set("minColor", 0.2f, 0.0f, 1.0f));
-	params.add(maxColor.set("maxColor", 0.4f, 0.0f, 1.0f));
-	params.add(borderWidth.set("borderWidth", 0.1f, 0.0f, 1.0f));
-	params.add(borderSoftness.set("borderSoftness", 0.01f, 0.0f, 0.3f));
-	params.add(bDiffusionMapMode.set("diffusion map", false));
+
+	renderParams.setName("Render Shader");
+	renderParams.add(bRenderWithShader.set("render shader", false));
+	renderParams.add(minVal.set("minVal", 0.0f, 0.0f, 1.0f));
+	renderParams.add(maxVal.set("maxVal", 1.0f, 0.0f, 1.0f));
+	renderParams.add(minColor.set("minColor", ofFloatColor(0.2), ofFloatColor(0), ofFloatColor(1)));
+	renderParams.add(maxColor.set("maxColor", ofFloatColor(0.1), ofFloatColor(0), ofFloatColor(1)));
+//	params.add(minColor.set("minColor", 0.2f, 0.0f, 1.0f));
+//	params.add(maxColor.set("maxColor", 0.4f, 0.0f, 1.0f));
+	renderParams.add(borderWidth.set("borderWidth", 0.1f, 0.0f, 1.0f));
+	renderParams.add(borderSoftness.set("borderSoftness", 0.01f, 0.0f, 0.3f));
 
 
 	allocateFbos(getWidth(), getHeight());
@@ -61,6 +62,7 @@ GrayScott::GrayScott()
 void GrayScott::setupGui(ofxPanel& panel)
 {
 	panel.setup(params);
+	panel.add(renderParams);
 	panel.add(gradField.params);
 }
 
@@ -85,10 +87,6 @@ void GrayScott::update(float dt)
 {
 	gradField.update(dt);
 	
-	if (bDiffusionMapMode) {
-		return;
-	}
-
 	if (!bTouching) {
 		for (int i=0; i<simSteps; i++) {
 			simulationStep(dt);
@@ -98,12 +96,7 @@ void GrayScott::update(float dt)
 
 void GrayScott::draw()
 {
-	if (bDiffusionMapMode) {
-		drawDiffusionMap();
-	}
-	else {
-		drawSimulation();
-	}
+	drawSimulation();
 }
 
 void GrayScott::drawSimulation()
@@ -112,8 +105,10 @@ void GrayScott::drawSimulation()
 		renderShader.begin();
 		renderShader.setUniformTexture("tex0", gridFbo->getTexture(), 0);
 		renderShader.setUniform2f("tex0_size", gridFbo->getWidth(), gridFbo->getHeight());
-		renderShader.setUniform1f("minColor", minColor);
-		renderShader.setUniform1f("maxColor", maxColor);
+		renderShader.setUniform1f("minVal", minVal);
+		renderShader.setUniform1f("maxVal", maxVal);
+		renderShader.setUniform4f("minColor", minColor->r, minColor->g, minColor->b, minColor->a);
+		renderShader.setUniform4f("maxColor", maxColor->r, maxColor->g, maxColor->b, maxColor->a);
 		renderShader.setUniform1f("borderWidth", borderWidth);
 		renderShader.setUniform1f("softness", borderSoftness);
 
@@ -146,8 +141,6 @@ void GrayScott::allocateFbos(int w, int h)
 	s.internalformat = GL_RGBA32F;
 	s.minFilter = GL_NEAREST;
 	s.maxFilter = GL_NEAREST;
-//	s.wrapModeHorizontal = GL_REPEAT;
-//	s.wrapModeVertical = GL_REPEAT;
 
 	gridFbo = new ofFbo();
 	gridFbo->allocate(s);
@@ -185,12 +178,7 @@ void GrayScott::simulationStep(float dt)
 	simShader.begin();
 	simShader.setUniformTexture("tex0", gridFbo->getTexture(), 0);
 	simShader.setUniform2f("tex0_size", gridFbo->getWidth(), gridFbo->getHeight());
-//	simShader.setUniformTexture("diffusionFlowTex", diffusionFlowFbo.getTexture(), 1);
 	simShader.setUniformTexture("gradientFieldTex", gradField.getTexture(), 2);
-	simShader.setUniform1f("feedRate", feedRate);
-	simShader.setUniform1f("killRate", killRate);
-	simShader.setUniform1f("aDiffRate", aDiffRate);
-	simShader.setUniform1f("bDiffRate", bDiffRate);
 	simShader.setUniform1f("TIMESTEP", timestep);
 
 	ofPushMatrix();
@@ -216,19 +204,10 @@ void GrayScott::onTouchDown(ofxInterface::TouchEvent &event)
 	bTouching = true;
 	ofVec2f local = toLocal(event.position);
 
-	if (bDiffusionMapMode) {
-//		for (int i=0; i<200; i++) {
-//			drawRandomDiffusion(ofRandom(0, diffusionFlowFbo.getWidth()), ofRandom(0, diffusionFlowFbo.getHeight()));
-//		}
-//		drawRandomDiffusion(local.x, local.y);
-		drawDiffusionBump(local.x, local.y);
-		return;
-	}
-
 	gridFbo->begin();
-	ofFill();
 	ofSetColor(B_COLOR);
-	ofDrawRectangle((int)local.x, (int)local.y, 20, 10);
+	ofFill();
+	ofDrawCircle(local.x, local.y, 10);
 	gridFbo->end();
 }
 
@@ -239,11 +218,6 @@ void GrayScott::onTouchMove(ofxInterface::TouchEvent &event)
 	}
 
 	ofVec2f local = toLocal(event.position);
-
-	if (bDiffusionMapMode) {
-		drawRandomDiffusion(local.x, local.y);
-		return;
-	}
 
 	gridFbo->begin();
 	ofSetColor(B_COLOR);

@@ -4,8 +4,8 @@
 	<aDiffRate>1</aDiffRate>
 	<bDiffRate>0.5</bDiffRate>
 	<timestep>0.25</timestep>
-	<minColor>0.49</minColor>
-	<maxColor>0.16</maxColor>
+	<minColor>0.0867347, 0.0867347, 0.0867347, 1</minColor>
+	<maxColor>0.515306, 0.515306, 0.515306, 1</maxColor>
 <GrayScott/>
 <Steps>23</Steps>
 	<UnknownName>1</UnknownName>
@@ -36,4 +36,22 @@
 		<Diffusion_3>0.1</Diffusion_3>
 	<Use_gradient_field>1</Use_gradient_field>
 	</Gradient_Field>
+<group>
+		<render_shader>1</render_shader>
+		<minVal>0.147959</minVal>
+		<maxVal>0.27551</maxVal>
+		<minColor>0.2, 0.2, 0.401291, 1</minColor>
+		<maxColor>0.79696, 0.427322, 0.521033, 1</maxColor>
+		<borderWidth>0.1</borderWidth>
+		<borderSoftness>0.01</borderSoftness>
+	</group>
+<Render_Shader>
+		<render_shader>1</render_shader>
+		<minVal>0.147959</minVal>
+		<maxVal>0.229592</maxVal>
+		<minColor>0.640775, 0.661599, 0.651187, 1</minColor>
+		<maxColor>0.125364, 0.120158, 0.120158, 1</maxColor>
+		<borderWidth>0.1</borderWidth>
+		<borderSoftness>0.01</borderSoftness>
+	</Render_Shader>
 </GrayScott>

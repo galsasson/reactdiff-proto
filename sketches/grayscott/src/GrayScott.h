@@ -16,8 +16,8 @@
 
 #include "GradientField.h"
 
-#define A_COLOR ofColor(255, 0, 0)
-#define B_COLOR ofColor(0, 255, 0)
+#define A_COLOR ofFloatColor(1, 0, 0)
+#define B_COLOR ofFloatColor(0, 1, 0)
 
 using namespace ofxInterface;
 
@@ -41,19 +41,17 @@ public:
 private:
 
 	ofParameterGroup params;
-	ofParameter<float> feedRate;
-	ofParameter<float> killRate;
-	ofParameter<float> aDiffRate;
-	ofParameter<float> bDiffRate;
 	ofParameter<int> simSteps;
 	ofParameter<float> timestep;
-	ofParameter<float> minColor;
-	ofParameter<float> maxColor;
+
+	ofParameterGroup renderParams;
 	ofParameter<bool> bRenderWithShader;
+	ofParameter<float> minVal;
+	ofParameter<float> maxVal;
+	ofParameter<ofFloatColor> minColor;
+	ofParameter<ofFloatColor> maxColor;
 	ofParameter<float> borderWidth;
 	ofParameter<float> borderSoftness;
-	ofParameter<bool> bDiffusionMapMode;
-	ofParameter<bool> bUseGradientField;
 
 	ofShader simShader;
 	ofShader renderShader;
