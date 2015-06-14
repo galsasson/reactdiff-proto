@@ -15,9 +15,8 @@ GrayScott::GrayScott()
 	ofDisableArbTex();
 
 //	setSize(4096, 4096);
-	setSize(ofGetWindowWidth(), ofGetWindowHeight());
+	setSize(1024, 768);
 
-	// took these from: http://www.karlsims.com/rd.html
 	params.setName("GrayScott");
 	params.add(simSteps.set("Steps", 1, 1, 40));
 	params.add(timestep.set("timestep", 1.0f, 0.0f, 10.0f));
@@ -32,6 +31,8 @@ GrayScott::GrayScott()
 //	params.add(maxColor.set("maxColor", 0.4f, 0.0f, 1.0f));
 	renderParams.add(borderWidth.set("borderWidth", 0.1f, 0.0f, 1.0f));
 	renderParams.add(borderSoftness.set("borderSoftness", 0.01f, 0.0f, 0.3f));
+	renderParams.add(roundEdge1.set("roundEdge1", 0.48, 0.0, 1.0));
+	renderParams.add(roundEdge2.set("roundEdge2", 0.43, 0.0, 1.0));
 
 
 	allocateFbos(getWidth(), getHeight());
@@ -41,10 +42,17 @@ GrayScott::GrayScott()
 	simShader.load("shaders/grayscott_simulation");
 //	simShader.load("shaders/turing_simulation");
 	renderShader.load("shaders/grayscott_render");
-//	plane.mapTexCoordsFromTexture(gridFbo->getTexture());
+
 	plane.mapTexCoords(0, 0, 1, 1);
 	plane.setWidth(getWidth());
 	plane.setHeight(getHeight());
+
+	renderPlane.mapTexCoords(0, 0, 1, 1);
+	renderPlane.setWidth(getWidth());
+	renderPlane.setHeight(getHeight());
+	renderPlane.setResolution(getWidth(), getHeight());
+
+//	zPlane.setup(getWidth(), getHeight());
 
 	ofAddListener(eventTouchDown, this, &GrayScott::onTouchDown);
 	ofAddListener(eventTouchMove, this, &GrayScott::onTouchMove);
@@ -64,6 +72,7 @@ void GrayScott::setupGui(ofxPanel& panel)
 	panel.setup(params);
 	panel.add(renderParams);
 	panel.add(gradField.params);
+//	zPlane.setupGui(panel);
 }
 
 GrayScott::~GrayScott()
@@ -86,7 +95,7 @@ void GrayScott::seedGrid()
 void GrayScott::update(float dt)
 {
 	gradField.update(dt);
-	
+
 	if (!bTouching) {
 		for (int i=0; i<simSteps; i++) {
 			simulationStep(dt);
@@ -111,11 +120,14 @@ void GrayScott::drawSimulation()
 		renderShader.setUniform4f("maxColor", maxColor->r, maxColor->g, maxColor->b, maxColor->a);
 		renderShader.setUniform1f("borderWidth", borderWidth);
 		renderShader.setUniform1f("softness", borderSoftness);
+		renderShader.setUniform1f("roundEdge1", roundEdge1);
+		renderShader.setUniform1f("roundEdge2", roundEdge2);
 
 		ofPushMatrix();
 		ofTranslate(getWidth()/2, getHeight()/2);
 		ofSetColor(255);
-		plane.draw();
+//		zPlane.draw();
+		renderPlane.draw();
 		ofPopMatrix();
 
 		renderShader.end();

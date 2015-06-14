@@ -15,6 +15,9 @@ uniform float softness;
 uniform float minVal;
 uniform float maxVal;
 
+uniform float roundEdge1;
+uniform float roundEdge2;
+
 float map(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp)
 {
 		float outVal = ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
@@ -47,17 +50,11 @@ vec4 cellBordersRound(vec4 color)
 	vec2 t = vec2(fract(varyingtexcoord.x * tex0_size.x),
 				  fract(varyingtexcoord.y * tex0_size.y));
 	float r = length(abs(t-vec2(0.5, 0.5)));
-	float a = smoothstep(0.48, 0.43, r);
+	float a = smoothstep(roundEdge1, roundEdge2, r);
 	return vec4(a*color.r, a*color.g, a*color.b, 1.0);
 }
 
 void main(){
-	//this is the fragment shader
-	//this is where the pixel level drawing happens
-	//gl_FragCoord gives us the x and y of the current pixel its drawing
-
-
-//	vec4 v = (maxColor - texture(tex0, varyingtexcoord).g) / (maxColor - minColor);
 
 	float val = map(texture(tex0, varyingtexcoord).g, minVal, maxVal, 0.0, 1.0, false);
 	vec4 v = minColor + val * (maxColor-minColor);

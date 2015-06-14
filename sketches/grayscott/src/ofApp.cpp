@@ -11,6 +11,9 @@ void ofApp::setup()
 	ofSetFrameRate(60);
 	ofEnableAlphaBlending();
 
+	cam.setupPerspective();
+	cam.setNearClip(0.0);
+	cam.setFarClip(10000);
 
 
 	TIME_SAMPLE_SET_FRAMERATE(ofGetTargetFrameRate());
@@ -25,7 +28,7 @@ void ofApp::setup()
 	scene.addChild(grayScott);
 
 	grayScott->setupGui(gui);
-	gui.add(scale.set("Scale", 1, 1, 200));
+	gui.add(scale.set("Scale", 1, 1, grayScott->getWidth()));
 	
 //	grayScott.setScale(ofGetWindowWidth()/grayScott.getWidth(), ofGetWindowHeight()/grayScott.getHeight(), 1.0f);
 }
@@ -33,7 +36,8 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update(){
 	grayScott->setScale(scale);
-	grayScott->setPosition((ofGetWindowWidth() - grayScott->getLocalWidth()) / 2 + translate.x,
+	grayScott->setPosition(
+						   (ofGetWindowWidth() - grayScott->getLocalWidth()) / 2 + translate.x,
 						   (ofGetWindowHeight() - grayScott->getLocalHeight()) / 2 + translate.y);
 
 	scene.updateSubtreePostOrder(1.0f / 60.0f);
@@ -43,11 +47,15 @@ void ofApp::update(){
 void ofApp::draw(){
 	ofClear(0);
 
+	cam.begin();
+
 	scene.render();
 
 	if (drawDebug) {
 		scene.renderDebug();
 	}
+
+	cam.end();
 
 	ofSetColor(255, 255, 255, 128);
 	ofFill();
@@ -92,7 +100,7 @@ void ofApp::keyPressed(int key)
 	}
 	else if (key == '0') {
 		translate = ofVec2f(0, 0);
-		scale = 1;	
+		scale = 1;
 	}
 	else if (key == '1') {
 		scale = ofGetWindowWidth()/256;

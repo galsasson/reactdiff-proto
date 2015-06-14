@@ -47,7 +47,9 @@ float noise(vec2 coord,float d){
 void main(){
     
 	//get our current vertex position so we can modify it
-	vec4 pos = modelViewProjectionMatrix * position;
+	vec4 defPos = position;// + vec4(0.0, 0.0, 10.0, 0.0);
+
+	vec4 pos = modelViewProjectionMatrix * defPos;
 
 	varyingtexcoord = texcoord;
 	//finally set the pos to be that actual position rendered

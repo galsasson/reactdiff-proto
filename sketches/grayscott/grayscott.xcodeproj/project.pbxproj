@@ -12,6 +12,7 @@
 		1D7223480EF577F7398744F8 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08E944637C72FC1B33CE6773 /* NetworkingUtils.cpp */; };
 		2A1D81CD1B1B574F00CE8A9D /* GrayScott.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A1D81CB1B1B574F00CE8A9D /* GrayScott.cpp */; };
 		2A52CAB01B26F6960098F17E /* GradientField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A52CAAE1B26F6960098F17E /* GradientField.cpp */; };
+		2A52CAB41B2D74F10098F17E /* ZoomablePlane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A52CAB21B2D74F10098F17E /* ZoomablePlane.cpp */; };
 		2A6B580D1B1B552D00FD07DF /* BitmapTextButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A6B57F91B1B552D00FD07DF /* BitmapTextButton.cpp */; };
 		2A6B580E1B1B552D00FD07DF /* SolidColorPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A6B57FB1B1B552D00FD07DF /* SolidColorPanel.cpp */; };
 		2A6B580F1B1B552D00FD07DF /* TextureButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A6B57FD1B1B552D00FD07DF /* TextureButton.cpp */; };
@@ -90,6 +91,8 @@
 		2A1D81CE1B1B679300CE8A9D /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = bin/data; sourceTree = "<group>"; };
 		2A52CAAE1B26F6960098F17E /* GradientField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GradientField.cpp; sourceTree = "<group>"; };
 		2A52CAAF1B26F6960098F17E /* GradientField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientField.h; sourceTree = "<group>"; };
+		2A52CAB21B2D74F10098F17E /* ZoomablePlane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZoomablePlane.cpp; sourceTree = "<group>"; };
+		2A52CAB31B2D74F10098F17E /* ZoomablePlane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomablePlane.h; sourceTree = "<group>"; };
 		2A6B57F91B1B552D00FD07DF /* BitmapTextButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BitmapTextButton.cpp; sourceTree = "<group>"; };
 		2A6B57FA1B1B552D00FD07DF /* BitmapTextButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitmapTextButton.h; sourceTree = "<group>"; };
 		2A6B57FB1B1B552D00FD07DF /* SolidColorPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SolidColorPanel.cpp; sourceTree = "<group>"; };
@@ -420,6 +423,8 @@
 				2A1D81CC1B1B574F00CE8A9D /* GrayScott.h */,
 				2A52CAAE1B26F6960098F17E /* GradientField.cpp */,
 				2A52CAAF1B26F6960098F17E /* GradientField.h */,
+				2A52CAB21B2D74F10098F17E /* ZoomablePlane.cpp */,
+				2A52CAB31B2D74F10098F17E /* ZoomablePlane.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -553,6 +558,7 @@
 				78DCCE01CA1ECC0F810A1857 /* ofxGuiGroup.cpp in Sources */,
 				B6BF15D1BE7D008A045F1C22 /* ofxLabel.cpp in Sources */,
 				56E0EC06162476CFD4D889EF /* ofxPanel.cpp in Sources */,
+				2A52CAB41B2D74F10098F17E /* ZoomablePlane.cpp in Sources */,
 				DA517FABDA67F42EBD35AA8D /* ofxSlider.cpp in Sources */,
 				2A6B580F1B1B552D00FD07DF /* TextureButton.cpp in Sources */,
 				59091B69D0C22F1C78C7FBD7 /* ofxSliderGroup.cpp in Sources */,

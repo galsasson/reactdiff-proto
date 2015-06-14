@@ -15,6 +15,7 @@
 #include "ofxGui.h"
 
 #include "GradientField.h"
+#include "ZoomablePlane.h"
 
 #define A_COLOR ofFloatColor(1, 0, 0)
 #define B_COLOR ofFloatColor(0, 1, 0)
@@ -52,10 +53,15 @@ private:
 	ofParameter<ofFloatColor> maxColor;
 	ofParameter<float> borderWidth;
 	ofParameter<float> borderSoftness;
+	ofParameter<float> roundEdge1;
+	ofParameter<float> roundEdge2;
 
 	ofShader simShader;
 	ofShader renderShader;
 	ofPlanePrimitive plane;
+
+	ofPlanePrimitive renderPlane;
+//	ZoomablePlane zPlane;
 
 	void allocateFbos(int w, int h);
 	void swapFbos();

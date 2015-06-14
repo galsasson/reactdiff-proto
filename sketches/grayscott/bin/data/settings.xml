@@ -29,10 +29,10 @@
 		<A_Diff_1>0.219388</A_Diff_1>
 		<A_Diff_2>0.1</A_Diff_2>
 	<Default_Diffusion>0.183673</Default_Diffusion>
-		<Diffusion_1>0.0459184</Diffusion_1>
+		<Diffusion_1>0.0255102</Diffusion_1>
 		<Diffusion_2>0.5</Diffusion_2>
-		<Feed_3>0.055</Feed_3>
-		<Kill_3>0.0668367</Kill_3>
+		<Feed_3>0.0658163</Feed_3>
+		<Kill_3>0.0617347</Kill_3>
 		<Diffusion_3>0.1</Diffusion_3>
 	<Use_gradient_field>1</Use_gradient_field>
 	</Gradient_Field>
@@ -53,5 +53,7 @@
 		<maxColor>0.370054, 0.489796, 0.463765, 1</maxColor>
 		<borderWidth>0.1</borderWidth>
 		<borderSoftness>0.01</borderSoftness>
+	<roundEdge1>0.48</roundEdge1>
+		<roundEdge2>0.43</roundEdge2>
 	</Render_Shader>
 </GrayScott>

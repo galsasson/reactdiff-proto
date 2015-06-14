@@ -33,6 +33,9 @@ class ofApp : public ofBaseApp{
 	ofVec2f translate;
 	GrayScott* grayScott;
 
+//	ofEasyCam cam;
+	ofCamera cam;
+
 	bool drawDebug;
 
 	ofxPanel gui;
