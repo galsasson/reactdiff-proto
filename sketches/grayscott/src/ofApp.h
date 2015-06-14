@@ -39,5 +39,10 @@ class ofApp : public ofBaseApp{
 	bool drawDebug;
 
 	ofxPanel gui;
-		
+	void setPreset(int i);
+	void loadPreset(int i);
+	void savePreset(int i);
+	int currentPreset;
+
+	stringstream controls;
 };

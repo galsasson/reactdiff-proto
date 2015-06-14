@@ -80,14 +80,27 @@ GrayScott::~GrayScott()
 
 }
 
-void GrayScott::seedGrid()
+void GrayScott::clearGrid()
 {
 	gridFbo->begin();
 	ofFill();
 	ofSetColor(A_COLOR);
 	ofDrawRectangle(0, 0, gridFbo->getWidth(), gridFbo->getHeight());
-//	ofSetColor(B_COLOR);
-//	ofDrawCircle(gridFbo->getWidth()/2, gridFbo->getHeight()/2, 10);
+	gridFbo->end();
+}
+
+void GrayScott::seedGrid()
+{
+	gridFbo->begin();
+	ofClear(A_COLOR);
+	ofSetLineWidth(10);
+	for (int i=0; i<getWidth(); i+=10) {
+		for (int j=0; j<getHeight(); j+=10) {
+			ofColor c = ofFloatColor(1, ofRandom(1), 0, 1);
+			ofSetColor(c);
+			ofDrawLine(i, j, i+10, j+10);
+		}
+	}
 	gridFbo->end();
 }
 
@@ -305,6 +318,9 @@ void GrayScott::onKeyPressed(ofKeyEventArgs &args)
 		else {
 			gradField.activate();
 		}
+	}
+	else if (args.key == 'c') {
+		clearGrid();
 	}
 }
 

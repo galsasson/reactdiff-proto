@@ -6,7 +6,18 @@ void ofApp::setup()
 {
 	ofLogNotice("ofApp") << "app started";
 
+	controls <<
+	"Keyboard Controls:\n" <<
+	"0-7    - Load Preset\n" <<
+	"space  - Random Seed\n" <<
+	"c      - Empty Seed\n" <<
+	"h      - Hide Controls\n" <<
+	"r      - Reload Preset\n" <<
+	"s      - Save Preset\n" <<
+	"g      - toggle gradient field";
+
 	drawDebug = false;
+	currentPreset = 0;
 //	ofDisableBlendMode();
 	ofSetFrameRate(60);
 	ofEnableAlphaBlending();
@@ -29,7 +40,9 @@ void ofApp::setup()
 
 	grayScott->setupGui(gui);
 	gui.add(scale.set("Scale", 1, 1, grayScott->getWidth()));
-	
+
+
+	loadPreset(0);
 //	grayScott.setScale(ofGetWindowWidth()/grayScott.getWidth(), ofGetWindowHeight()/grayScott.getHeight(), 1.0f);
 }
 
@@ -68,6 +81,14 @@ void ofApp::draw(){
 	ofDrawBitmapString("Scale: " + ofToString(grayScott->getScale().x), 5, y);
 
 	gui.draw();
+
+	ofVec2f p(ofGetWindowWidth()-280, 10);
+	ofSetColor(0);
+	ofFill();
+	ofDrawRectangle(p.x, p.y, 270, 200);
+	ofSetColor(255);
+	ofDrawBitmapString("Preset: "+ofToString(currentPreset), p.x+10, p.y+20);
+	ofDrawBitmapString(controls.str(), p.x+10, p.y+40);
 }
 
 //--------------------------------------------------------------
@@ -99,23 +120,42 @@ void ofApp::keyPressed(int key)
 		grayScott->clearDiffusionMap();
 	}
 	else if (key == '0') {
-		translate = ofVec2f(0, 0);
-		scale = 1;
+		setPreset(0);
+		loadPreset(0);
 	}
 	else if (key == '1') {
-		scale = ofGetWindowWidth()/256;
+		setPreset(1);
+		loadPreset(1);
 	}
 	else if (key == '2') {
-		scale = ofGetWindowWidth()/128;
+		setPreset(2);
+		loadPreset(2);
 	}
 	else if (key == '3') {
-		scale = ofGetWindowWidth()/32;
+		setPreset(3);
+		loadPreset(3);
 	}
 	else if (key == '4') {
-		scale = ofGetWindowWidth()/8;
+		setPreset(4);
+		loadPreset(4);
 	}
 	else if (key == '5') {
-		scale = ofGetWindowWidth();
+		setPreset(5);
+		loadPreset(5);
+	}
+	else if (key == '6') {
+		setPreset(6);
+		loadPreset(6);
+	}
+	else if (key == '7') {
+		setPreset(7);
+		loadPreset(7);
+	}
+	else if (key == 'r') {
+		loadPreset(currentPreset);
+	}
+	else if (key == 's') {
+		savePreset(currentPreset);
 	}
 
 }
@@ -168,4 +208,19 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+void ofApp::setPreset(int i)
+{
+	currentPreset = i;
+}
+
+void ofApp::loadPreset(int i)
+{
+	gui.loadFromFile("presets/set"+ofToString(i)+".xml");
+}
+
+void ofApp::savePreset(int i)
+{
+	gui.saveToFile("presets/set"+ofToString(i)+".xml");
 }

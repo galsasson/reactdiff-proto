@@ -30,6 +30,7 @@ public:
 	~GrayScott();
 
 	void setupGui(ofxPanel& panel);
+	void clearGrid();
 	void seedGrid();
 
 	void clearDiffusionMap();

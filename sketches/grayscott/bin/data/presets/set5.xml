@@ -1,0 +1,59 @@
+<GrayScott>
+	<feedRate>0.055</feedRate>
+	<killRate>0.062</killRate>
+	<aDiffRate>1</aDiffRate>
+	<bDiffRate>0.5</bDiffRate>
+	<timestep>1.3</timestep>
+	<minColor>0.0867347, 0.0867347, 0.0867347, 1</minColor>
+	<maxColor>0.515306, 0.515306, 0.515306, 1</maxColor>
+<GrayScott/>
+<Steps>23</Steps>
+	<UnknownName>1</UnknownName>
+<borderWidth>0.025</borderWidth>
+	<Scale>31.69</Scale>
+<borderSoftness>0.0105</borderSoftness>
+<render_shader>1</render_shader>
+	<diffusion_map>0</diffusion_map>
+<Use_gradient_field>0</Use_gradient_field>
+	<Gradient_Field>
+		<Default_Feed>0</Default_Feed>
+		<Default_Kill>0.062</Default_Kill>
+		<Feed_0>0.0260204</Feed_0>
+		<Kill_0>0.062</Kill_0>
+		<Feed_1>0.0331633</Feed_1>
+		<Kill_1>0.0571429</Kill_1>
+		<Feed_2>0.027551</Feed_2>
+		<Kill_2>0.0571429</Kill_2>
+	<Default_A_Diff>0.1</Default_A_Diff>
+		<A_Diff_0>0.00510204</A_Diff_0>
+		<A_Diff_1>0.219388</A_Diff_1>
+		<A_Diff_2>0.1</A_Diff_2>
+	<Default_Diffusion>0.0408163</Default_Diffusion>
+		<Diffusion_1>0.0204082</Diffusion_1>
+		<Diffusion_2>0.0204082</Diffusion_2>
+		<Feed_3>0.0142857</Feed_3>
+		<Kill_3>0.0535714</Kill_3>
+		<Diffusion_3>0.0255102</Diffusion_3>
+	<Use_gradient_field>1</Use_gradient_field>
+	</Gradient_Field>
+<group>
+		<render_shader>1</render_shader>
+		<minVal>0.147959</minVal>
+		<maxVal>0.27551</maxVal>
+		<minColor>0.2, 0.2, 0.401291, 1</minColor>
+		<maxColor>0.79696, 0.427322, 0.521033, 1</maxColor>
+		<borderWidth>0.1</borderWidth>
+		<borderSoftness>0.01</borderSoftness>
+	</group>
+<Render_Shader>
+		<render_shader>1</render_shader>
+		<minVal>0.0204082</minVal>
+		<maxVal>0.112245</maxVal>
+		<minColor>0.0941275, 0.359642, 0.140983, 1</minColor>
+		<maxColor>0.349229, 0.895877, 0.463765, 1</maxColor>
+		<borderWidth>0.1</borderWidth>
+		<borderSoftness>0.01</borderSoftness>
+	<roundEdge1>0.48</roundEdge1>
+		<roundEdge2>0.43</roundEdge2>
+	</Render_Shader>
+</GrayScott>

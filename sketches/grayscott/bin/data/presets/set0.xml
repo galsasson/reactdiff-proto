@@ -1,0 +1,32 @@
+<GrayScott>
+	<Steps>23</Steps>
+	<timestep>1</timestep>
+	<Render_Shader>
+		<render_shader>0</render_shader>
+		<minVal>0</minVal>
+		<maxVal>1</maxVal>
+		<minColor>0.2, 0.2, 0.2, 1</minColor>
+		<maxColor>0.1, 0.1, 0.1, 1</maxColor>
+		<borderWidth>0.1</borderWidth>
+		<borderSoftness>0.01</borderSoftness>
+		<roundEdge1>0.48</roundEdge1>
+		<roundEdge2>0.43</roundEdge2>
+	</Render_Shader>
+	<Gradient_Field>
+		<Use_gradient_field>1</Use_gradient_field>
+		<Default_Feed>0.055</Default_Feed>
+		<Default_Kill>0.062</Default_Kill>
+		<Default_Diffusion>0.1</Default_Diffusion>
+		<Feed_1>0.055</Feed_1>
+		<Kill_1>0.062</Kill_1>
+		<Diffusion_1>0.1</Diffusion_1>
+		<Feed_2>0.055</Feed_2>
+		<Kill_2>0.062</Kill_2>
+		<Diffusion_2>0.1</Diffusion_2>
+		<Feed_3>0.055</Feed_3>
+		<Kill_3>0.062</Kill_3>
+		<Diffusion_3>0.1</Diffusion_3>
+	</Gradient_Field>
+	<Scale>1</Scale>
+<GrayScott/>
+</GrayScott>
