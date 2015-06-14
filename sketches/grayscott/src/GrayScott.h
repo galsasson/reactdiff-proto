@@ -79,7 +79,9 @@ private:
 	void drawRandomDiffusion(float x, float y);
 	void drawDiffusionBump(float x, float y);
 
-	GradientField gradField;
+	GradientField paramsField;
+	GradientField minColorField;
+	GradientField maxColorField;
 
 	void onKeyPressed(ofKeyEventArgs& args);
 };

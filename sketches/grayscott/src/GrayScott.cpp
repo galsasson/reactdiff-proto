@@ -58,9 +58,40 @@ GrayScott::GrayScott()
 	ofAddListener(eventTouchMove, this, &GrayScott::onTouchMove);
 	ofAddListener(eventTouchUp, this, &GrayScott::onTouchUp);
 
-	gradField.setup(getWidth(), getHeight());
-	gradField.deactivate();
-	addChild(&gradField);
+
+
+	// parameters field
+	paramsField.setup(getWidth(), getHeight());
+	paramsField.params.setName("Simulation Params");
+	paramsField.params.add("Default");
+	paramsField.params.get<ofVec4f>(0).set("Default", ofVec4f(0.055f, 0.062f, 0.1f, 1.0f), ofVec4f(0.055f, 0.062f, 0.1f, 1.0f), ofVec4f(0.1f, 0.1f, 0.1f, 1.0f));
+	for (int i=0; i<3; i++) {
+		paramsField.params.add("User " + ofToString(i+1));
+		paramsField.params.get<ofVec4f>(i+1).set("User " + ofToString(i+1), ofVec4f(0.055f, 0.062f, 0.1f, 1.0f), ofVec4f(0.055f, 0.062f, 0.1f, 1.0f), ofVec4f(0.1f, 0.1f, 0.1f, 1.0f));
+	}
+	paramsField.deactivate();
+	addChild(&paramsField);
+
+	// min colors
+	minColorField.setup(getWidth(), getHeight());
+	minColorField.setName("Min Color");
+	minColorField.params.get<ofVec4f>(0).set("Default", ofVec4f(0), ofVec4f(0), ofVec4f(1));
+	for (int i=0; i<3; i++) {
+		minColorField.params.get<ofVec4f>(i+1).set("User " + ofToString(i+1), ofVec4f(0), ofVec4f(0), ofVec4f(1));
+	}
+	minColorField.deactivate();
+	addChild(&minColorField);
+
+	// max colors
+	maxColorField.setup(getWidth(), getHeight());
+	maxColorField.params.setName("Max Color");
+	maxColorField.params.get<ofVec4f>(0).set("Default", ofVec4f(1), ofVec4f(0), ofVec4f(1));
+	for (int i=0; i<3; i++) {
+		maxColorField.params.get<ofVec4f>(i+1).set("User " + ofToString(i+1), ofVec4f(1), ofVec4f(0), ofVec4f(1));
+	}
+	maxColorField.deactivate();
+	addChild(&maxColorField);
+
 
 	ofAddListener(ofEvents().keyPressed, this, &GrayScott::onKeyPressed);
 
@@ -71,7 +102,7 @@ void GrayScott::setupGui(ofxPanel& panel)
 {
 	panel.setup(params);
 	panel.add(renderParams);
-	panel.add(gradField.params);
+//	panel.add(gradField.params);
 //	zPlane.setupGui(panel);
 }
 
@@ -94,7 +125,9 @@ void GrayScott::seedGrid()
 
 void GrayScott::update(float dt)
 {
-	gradField.update(dt);
+	paramsField.update(dt);
+	minColorField.update(dt);
+	maxColorField.update(dt);
 
 	if (!bTouching) {
 		for (int i=0; i<simSteps; i++) {
@@ -190,7 +223,7 @@ void GrayScott::simulationStep(float dt)
 	simShader.begin();
 	simShader.setUniformTexture("tex0", gridFbo->getTexture(), 0);
 	simShader.setUniform2f("tex0_size", gridFbo->getWidth(), gridFbo->getHeight());
-	simShader.setUniformTexture("gradientFieldTex", gradField.getTexture(), 2);
+	simShader.setUniformTexture("gradientFieldTex", paramsField.getTexture(), 2);
 	simShader.setUniform1f("TIMESTEP", timestep);
 
 	ofPushMatrix();
@@ -299,11 +332,11 @@ void GrayScott::clearDiffusionMap()
 void GrayScott::onKeyPressed(ofKeyEventArgs &args)
 {
 	if (args.key == 'g') {
-		if (gradField.getVisible()) {
-			gradField.deactivate();
+		if (paramsField.getVisible()) {
+			paramsField.deactivate();
 		}
 		else {
-			gradField.activate();
+			paramsField.activate();
 		}
 	}
 }

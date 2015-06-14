@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "ofxInterface.h"
+#include "ofxGui.h"
 
 using namespace ofxInterface;
 
@@ -22,11 +23,12 @@ public:
 
 	ofTexture& getTexture();
 
-
 	void update(float dt);
-	void draw();
+	void draw(float magR, float magG, float magB, float magA);
 
+	void initParams(const string& name);
 	ofParameterGroup params;
+	ofxPanel panel;
 
 private:
 
@@ -38,23 +40,17 @@ private:
 	void allocateFbo();
 
 	ofVbo vbo;
-	bool bModelColorsDirty;
-	void createModel();
-	void setModelColors();
+	bool bVboDirty;
+	void createModel(ofVbo& vbo);
+	void setModelColors(ofVbo& vbo);
 
-	void initParams();
-	ofParameter<bool> bUseGradientField;
-	ofParameter<float> defaultFeed;
-	ofParameter<float> defaultKill;
-	ofParameter<float> defaultADiffRate;
-//	ofParameter<float> defaultBDiffRate;
-	ofParameter<float> feedValues[3];
-	ofParameter<float> killValues[3];
-	ofParameter<float> aDiffValues[3];
-//	ofParameter<float> bDiffValues[3];
+	ofParameter<bool> bEnableField;
+	ofParameter<ofVec4f> values[3];
+	ofParameter<ofVec4f> background;
 
 	void setDefaults();
 	void onFloatParamChanged(float& param);
 	void onBoolParamChanged(bool& params);
+	void onVec4ParamChanged(ofVec4f& params);
 };
 #endif /* defined(__grayscott__GradientField__) */

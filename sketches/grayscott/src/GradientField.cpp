@@ -12,18 +12,17 @@ void GradientField::setup(float w, float h)
 {
 	setSize(w, h);
 
-	initParams();
 	allocateFbo();
-	createModel();
-	setModelColors();
+	createModel(vbo);
+	setModelColors(vbo);
+
+	bVboDirty = true;
+	bFboDirty = true;
 
 	renderShader.load("shaders/gradientfield_render");
 	plane.mapTexCoords(0, 0, 1, 1);
 	plane.setWidth(getWidth());
 	plane.setHeight(getHeight());
-
-	bModelColorsDirty = true;
-	bFboDirty = true;
 }
 
 ofTexture& GradientField::getTexture()
@@ -33,10 +32,9 @@ ofTexture& GradientField::getTexture()
 
 void GradientField::update(float dt)
 {
-	if (bModelColorsDirty) {
-		setModelColors();
-		bModelColorsDirty = false;
-
+	if (bVboDirty) {
+		setModelColors(vbo);
+		bVboDirty = false;
 		bFboDirty = true;
 	}
 
@@ -45,9 +43,10 @@ void GradientField::update(float dt)
 
 		// render the fbo
 		fbo.begin();
-		ofClear(ofFloatColor(defaultFeed, defaultKill, defaultADiffRate, 1.0));//defaultBDiffRate));
+		ofFloatColor
+		ofClear((ofFloatColor(background)));
 
-		if (bUseGradientField) {
+		if (bEnableField) {
 			ofSetColor(255);
 			vbo.drawElements(GL_TRIANGLES, 6*3);
 		}
@@ -60,7 +59,7 @@ void GradientField::update(float dt)
 	}
 }
 
-void GradientField::draw()
+void GradientField::draw(float magR, float magG, float magB, float magA)
 {
 	ofPushMatrix();
 	ofTranslate(getWidth()/2, getHeight()/2);
@@ -72,6 +71,7 @@ void GradientField::draw()
 	// draw the fbo
 	renderShader.begin();
 	renderShader.setUniformTexture("tex0", fbo.getTexture(), 0);
+	renderShader.setUniform4f("mag", magR, magG, magB, magA);
 	ofSetColor(255);
 	plane.draw();
 	renderShader.end();
@@ -87,13 +87,11 @@ void GradientField::allocateFbo()
 	s.internalformat = GL_RGBA32F;
 	s.minFilter = GL_NEAREST;
 	s.maxFilter = GL_NEAREST;
-	s.wrapModeHorizontal = GL_REPEAT;
-	s.wrapModeVertical = GL_REPEAT;
 
 	fbo.allocate(s);
 }
 
-void GradientField::createModel()
+void GradientField::createModel(ofVbo& vbo)
 {
 	int N=6;
 
@@ -124,57 +122,42 @@ void GradientField::createModel()
 	vbo.setIndexData(&indices[0], indices.size(), GL_STATIC_DRAW);
 }
 
-void GradientField::setModelColors()
+void GradientField::setModelColors(ofVbo& vbo)
 {
 	vector<ofFloatColor> colors;
 
-	ofFloatColor user0Color(feedValues[0], killValues[0], aDiffValues[0], 1);
-	ofFloatColor user1Color(feedValues[1], killValues[1], aDiffValues[1], 1);
-	ofFloatColor user2Color(feedValues[2], killValues[2], aDiffValues[2], 1);
-
-	colors.push_back((user0Color/2 + user2Color/2));
-	colors.push_back(user0Color);
-	colors.push_back((user0Color/2 + user1Color/2));
-	colors.push_back(user1Color);
-	colors.push_back((user1Color/2 + user2Color/2));
-	colors.push_back(user2Color);
-	colors.push_back((user0Color/3 + user1Color/3 + user2Color/3));
+	colors.push_back(ofFloatColor((values[0].get() + values[2].get())/2));
+	colors.push_back(ofFloatColor(values[0]));
+	colors.push_back(ofFloatColor((values[0].get() + values[1].get())/2));
+	colors.push_back(ofFloatColor(values[1]));
+	colors.push_back(ofFloatColor((values[1].get() + values[2].get())/2));
+	colors.push_back(ofFloatColor(values[2]));
+	colors.push_back(ofFloatColor((values[0].get() + values[1].get() + values[2].get())/3));
 
 	vbo.setColorData(&colors[0], colors.size(), GL_DYNAMIC_DRAW);
 }
 
-void GradientField::initParams()
+void GradientField::initParams(const string& name)
 {
-	setDefaults();
+//	setDefaults();
 
+//	panel.setup(params);
+//	params.setName(name);
+	params.add(bEnableField.set("Enable " + name, true));
+//	bEnableField.addListener(this, &GradientField::onBoolParamChanged);
 
+	params.add(background);
+//	background.addListener(this, &GradientField::onVec4ParamChanged);
 
-	params.setName("Gradient Field");
-	params.add(bUseGradientField.set("Use gradient field", true));
-	bUseGradientField.addListener(this, &GradientField::onBoolParamChanged);
-
-	params.add(defaultFeed);
-	defaultFeed.addListener(this, &GradientField::onFloatParamChanged);
-	params.add(defaultKill);
-	defaultKill.addListener(this, &GradientField::onFloatParamChanged);
-	params.add(defaultADiffRate);
-	defaultADiffRate.addListener(this, &GradientField::onFloatParamChanged);
-//	params.add(defaultBDiffRate);
-//	defaultBDiffRate.addListener(this, &GradientField::onParamChanged);
 	for (int i=0; i<3; i++) {
-		params.add(feedValues[i]);
-		feedValues[i].addListener(this, &GradientField::onFloatParamChanged);
-		params.add(killValues[i]);
-		killValues[i].addListener(this, &GradientField::onFloatParamChanged);
-		params.add(aDiffValues[i]);
-		aDiffValues[i].addListener(this, &GradientField::onFloatParamChanged);
-//		params.add(bDiffValues[i]);
-//		bDiffValues[i].addListener(this, &GradientField::onParamChanged);
+		params.add(values[i]);
+//		values[i].addListener(this, &GradientField::onVec4ParamChanged);
 	}
 }
 
 void GradientField::setDefaults()
 {
+	/*
 	defaultFeed.set("Default Feed", 0.055f, 0, 0.1);
 	defaultKill.set("Default Kill", 0.062f, 0, 0.1);
 	defaultADiffRate.set("Default Diffusion", 0.1f, 0, 1);
@@ -186,16 +169,22 @@ void GradientField::setDefaults()
 		aDiffValues[i].set("Diffusion "+ofToString(i+1), defaultADiffRate, 0, 1);
 //		bDiffValues[i].set("B Diff "+ofToString(i), defaultBDiffRate, 0, 5);
 	}
+	 */
 }
 
 void GradientField::onFloatParamChanged(float &param)
 {
-	bModelColorsDirty = true;
+	bVboDirty = true;
 }
 
 void GradientField::onBoolParamChanged(bool &params)
 {
-	bModelColorsDirty = true;
+	bVboDirty = true;
+}
+
+void GradientField::onVec4ParamChanged(ofVec4f &params)
+{
+	bVboDirty = true;
 }
 
 
