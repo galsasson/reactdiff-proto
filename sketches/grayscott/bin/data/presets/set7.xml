@@ -47,10 +47,10 @@
 	</group>
 <Render_Shader>
 		<render_shader>1</render_shader>
-		<minVal>0.132653</minVal>
-		<maxVal>0.331633</maxVal>
+		<minVal>0.168367</minVal>
+		<maxVal>0.290816</maxVal>
 		<minColor>0.692836, 0.536651, 0.140983, 1</minColor>
-		<maxColor>0.682424, 0.828197, 0.526239, 1</maxColor>
+		<maxColor>0.833403, 0.734486, 0, 1</maxColor>
 		<borderWidth>0.1</borderWidth>
 		<borderSoftness>0.01</borderSoftness>
 	<roundEdge1>0.48</roundEdge1>

@@ -45,4 +45,5 @@ class ofApp : public ofBaseApp{
 	int currentPreset;
 
 	stringstream controls;
+	bool bShowControls;
 };

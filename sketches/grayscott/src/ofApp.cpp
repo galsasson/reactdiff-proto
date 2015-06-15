@@ -8,15 +8,17 @@ void ofApp::setup()
 
 	controls <<
 	"Keyboard Controls:\n" <<
-	"0-7    - Load Preset\n" <<
+	"0-9    - Load Preset\n" <<
 	"space  - Random Seed\n" <<
 	"c      - Empty Seed\n" <<
 	"h      - Hide Controls\n" <<
+	"+/-    - zoom in/out\n" <<
 	"r      - Reload Preset\n" <<
 	"s      - Save Preset\n" <<
 	"g      - toggle gradient field";
 
 	drawDebug = false;
+	bShowControls = true;
 	currentPreset = 0;
 //	ofDisableBlendMode();
 	ofSetFrameRate(60);
@@ -70,25 +72,28 @@ void ofApp::draw(){
 
 	cam.end();
 
-	ofSetColor(255, 255, 255, 128);
-	ofFill();
-	ofDrawRectangle(0, ofGetWindowHeight()-50, ofGetWindowWidth(), 50);
+	if (bShowControls)
+	{
+		ofSetColor(255, 255, 255, 128);
+		ofFill();
+		ofDrawRectangle(0, ofGetWindowHeight()-50, ofGetWindowWidth(), 50);
 
-	float y = ofGetWindowHeight()-35;
-	ofSetColor(0);
-	ofDrawBitmapString("Frame Rate: " + ofToString(ofGetFrameRate()), 5, y);
-	y+=15;
-	ofDrawBitmapString("Scale: " + ofToString(grayScott->getScale().x), 5, y);
+		float y = ofGetWindowHeight()-35;
+		ofSetColor(0);
+		ofDrawBitmapString("Frame Rate: " + ofToString(ofGetFrameRate()), 5, y);
+		y+=15;
+		ofDrawBitmapString("Scale: " + ofToString(grayScott->getScale().x), 5, y);
 
-	gui.draw();
+		ofVec2f p(ofGetWindowWidth()-280, 10);
+		ofSetColor(0);
+		ofFill();
+		ofDrawRectangle(p.x, p.y, 270, 200);
+		ofSetColor(255);
+		ofDrawBitmapString("Preset: "+ofToString(currentPreset), p.x+10, p.y+20);
+		ofDrawBitmapString(controls.str(), p.x+10, p.y+40);
 
-	ofVec2f p(ofGetWindowWidth()-280, 10);
-	ofSetColor(0);
-	ofFill();
-	ofDrawRectangle(p.x, p.y, 270, 200);
-	ofSetColor(255);
-	ofDrawBitmapString("Preset: "+ofToString(currentPreset), p.x+10, p.y+20);
-	ofDrawBitmapString(controls.str(), p.x+10, p.y+40);
+		gui.draw();
+	}
 }
 
 //--------------------------------------------------------------
@@ -119,43 +124,19 @@ void ofApp::keyPressed(int key)
 		grayScott->seedGrid();
 		grayScott->clearDiffusionMap();
 	}
-	else if (key == '0') {
-		setPreset(0);
-		loadPreset(0);
-	}
-	else if (key == '1') {
-		setPreset(1);
-		loadPreset(1);
-	}
-	else if (key == '2') {
-		setPreset(2);
-		loadPreset(2);
-	}
-	else if (key == '3') {
-		setPreset(3);
-		loadPreset(3);
-	}
-	else if (key == '4') {
-		setPreset(4);
-		loadPreset(4);
-	}
-	else if (key == '5') {
-		setPreset(5);
-		loadPreset(5);
-	}
-	else if (key == '6') {
-		setPreset(6);
-		loadPreset(6);
-	}
-	else if (key == '7') {
-		setPreset(7);
-		loadPreset(7);
+	else if (key >= 48 &&
+			 key <= 58) {
+		setPreset(key-48);
+		loadPreset(key-48);
 	}
 	else if (key == 'r') {
 		loadPreset(currentPreset);
 	}
 	else if (key == 's') {
 		savePreset(currentPreset);
+	}
+	else if (key == 'h') {
+		bShowControls = !bShowControls;
 	}
 
 }
