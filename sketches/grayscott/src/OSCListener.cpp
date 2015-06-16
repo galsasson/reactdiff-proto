@@ -46,7 +46,7 @@ void OSCListener::draw()
 	ofFill();
 	ofDrawRectangle(0, 0, getWidth(), getHeight());
 	ofSetColor(255);
-	ofDrawBitmapString(status.str(), 10, 10);
+	ofDrawBitmapString(status.str(), 5, 15);
 }
 
 vector<RemoteController*> OSCListener::getControllers()
@@ -80,8 +80,7 @@ void OSCListener::updateStatus()
 	status.str("");
 
 	status <<
-	"Listening...\n"<<
-	"Controllers:\n";
+	"Remote Controllers:\n\n";
 
 	for (int i=0; i<3; i++) {
 		if (remotes[i].bConnected) {

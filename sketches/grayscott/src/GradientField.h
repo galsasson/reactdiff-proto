@@ -40,10 +40,12 @@ private:
 	bool bFboDirty;
 	void allocateFbo();
 
-	ofVbo vbo;
+	ofVbo vbo[2];
 	bool bModelColorsDirty;
-	void createModel();
-	void setModelColors();
+	void createHexagonModel();
+	void setHexagonModelColors();
+	void createTriangleModel();
+	void setTriangleModelColors();
 
 	void initParams();
 	ofParameter<bool> bUseGradientField;

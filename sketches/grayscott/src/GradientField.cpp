@@ -14,8 +14,10 @@ void GradientField::setup(float w, float h)
 
 	initParams();
 	allocateFbo();
-	createModel();
-	setModelColors();
+	createHexagonModel();
+	setHexagonModelColors();
+	createTriangleModel();
+	setTriangleModelColors();
 
 	renderShader.load("shaders/gradientfield_render");
 	plane.mapTexCoords(0, 0, 1, 1);
@@ -35,7 +37,8 @@ ofTexture& GradientField::getTexture()
 void GradientField::update(float dt)
 {
 	if (bModelColorsDirty) {
-		setModelColors();
+		setHexagonModelColors();
+		setTriangleModelColors();
 		bModelColorsDirty = false;
 
 		bFboDirty = true;
@@ -50,7 +53,7 @@ void GradientField::update(float dt)
 
 		if (bUseGradientField) {
 			ofSetColor(255);
-			vbo.drawElements(GL_TRIANGLES, 6*3);
+			vbo[0].drawElements(GL_TRIANGLES, 6*3);
 		}
 
 		fbo.end();
@@ -102,7 +105,7 @@ void GradientField::allocateFbo()
 	fbo.allocate(s);
 }
 
-void GradientField::createModel()
+void GradientField::createHexagonModel()
 {
 	int N=6;
 
@@ -129,11 +132,11 @@ void GradientField::createModel()
 		indices.push_back((i+1)%N);
 	}
 
-	vbo.setVertexData(&verts[0], verts.size(), GL_STATIC_DRAW);
-	vbo.setIndexData(&indices[0], indices.size(), GL_STATIC_DRAW);
+	vbo[0].setVertexData(&verts[0], verts.size(), GL_STATIC_DRAW);
+	vbo[0].setIndexData(&indices[0], indices.size(), GL_STATIC_DRAW);
 }
 
-void GradientField::setModelColors()
+void GradientField::setHexagonModelColors()
 {
 	vector<ofFloatColor> colors;
 
@@ -149,7 +152,69 @@ void GradientField::setModelColors()
 	colors.push_back(user2Color);
 	colors.push_back((user0Color/3 + user1Color/3 + user2Color/3));
 
-	vbo.setColorData(&colors[0], colors.size(), GL_DYNAMIC_DRAW);
+	vbo[0].setColorData(&colors[0], colors.size(), GL_DYNAMIC_DRAW);
+}
+
+void GradientField::createTriangleModel()
+{
+	vector<ofVec3f> verts;
+	vector<ofIndexType> indices;
+
+	float centerSize = 30;
+	float rad = getHeight()/2 - centerSize;
+	ofVec3f cornerVec(0, -centerSize);
+	ofVec3f triangleVec(0, -rad);
+	ofVec3f center(getWidth()/2, getHeight()/2, 0);
+
+	ofVec3f triangleCorners[3][3];
+	triangleCorners[0][0] = center + cornerVec.getRotated(120, ofVec3f(0, 0, 1));
+	triangleCorners[0][1] = triangleCorners[0][0] + triangleVec.getRotated(60, ofVec3f(0, 0, 1));
+	triangleCorners[0][2] = triangleCorners[0][0] + triangleVec.getRotated(180, ofVec3f(0, 0, 1));
+
+	triangleCorners[1][0] = center + cornerVec.getRotated(240, ofVec3f(0, 0, 1));
+	triangleCorners[1][1] = triangleCorners[1][0] + triangleVec.getRotated(180, ofVec3f(0, 0, 1));
+	triangleCorners[1][2] = triangleCorners[1][0] + triangleVec.getRotated(-60, ofVec3f(0, 0, 1));
+
+	triangleCorners[2][0] = center + cornerVec;
+	triangleCorners[2][1] = triangleCorners[2][0] + triangleVec.getRotated(-60, ofVec3f(0, 0, 1));
+	triangleCorners[2][2] = triangleCorners[2][0] + triangleVec.getRotated(60, ofVec3f(0, 0, 1));
+
+	for (int t=0; t<3; t++) {
+		for (int i=0; i<3; i++) {
+			verts.push_back(triangleCorners[t][i]);
+		}
+	}
+
+	indices.push_back(0);
+	indices.push_back(0);
+	indices.push_back(0);
+
+	indices.push_back(0);
+	indices.push_back(0);
+	indices.push_back(0);
+
+	indices.push_back(0);
+	indices.push_back(0);
+	indices.push_back(0);
+
+	indices.push_back(0);
+	indices.push_back(0);
+	indices.push_back(0);
+
+	indices.push_back(0);
+	indices.push_back(0);
+	indices.push_back(0);
+
+	indices.push_back(0);
+	indices.push_back(0);
+	indices.push_back(0);
+
+
+}
+
+void GradientField::setTriangleModelColors()
+{
+
 }
 
 void GradientField::initParams()

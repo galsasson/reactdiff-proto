@@ -83,16 +83,6 @@ void ofApp::draw(){
 
 	if (bShowControls)
 	{
-		ofSetColor(255, 255, 255, 128);
-		ofFill();
-		ofDrawRectangle(0, ofGetWindowHeight()-50, ofGetWindowWidth(), 50);
-
-		float y = ofGetWindowHeight()-35;
-		ofSetColor(0);
-		ofDrawBitmapString("Frame Rate: " + ofToString(ofGetFrameRate()), 5, y);
-		y+=15;
-		ofDrawBitmapString("Scale: " + ofToString(grayScott->getScale().x), 5, y);
-
 		ofVec2f p(ofGetWindowWidth()-280, 10);
 		ofSetColor(0);
 		ofFill();
