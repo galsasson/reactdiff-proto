@@ -8,6 +8,11 @@
 
 #include "GrayScott.h"
 
+GrayScott::~GrayScott()
+{
+
+}
+
 GrayScott::GrayScott()
 {
 	bTouching = false;
@@ -18,7 +23,7 @@ GrayScott::GrayScott()
 	setSize(1024, 768);
 
 	params.setName("GrayScott");
-	params.add(simSteps.set("Steps", 1, 1, 40));
+	params.add(simSteps.set("Steps", 1, 1, 100));
 	params.add(timestep.set("timestep", 1.0f, 0.0f, 10.0f));
 
 	renderParams.setName("Render Shader");
@@ -67,17 +72,20 @@ GrayScott::GrayScott()
 	ofLogNotice("GrayScott") << "initialized!";
 }
 
+void GrayScott::setOscListener(OSCListener *listener)
+{
+	vector<RemoteController*> clers = listener->getControllers();
+	for (int i=0; i<clers.size(); i++) {
+		ofAddListener(clers[i]->eventParamChanged, &gradField, &GradientField::onRemoteParamChanged);
+	}
+}
+
 void GrayScott::setupGui(ofxPanel& panel)
 {
 	panel.setup(params);
 	panel.add(renderParams);
 	panel.add(gradField.params);
 //	zPlane.setupGui(panel);
-}
-
-GrayScott::~GrayScott()
-{
-
 }
 
 void GrayScott::clearGrid()

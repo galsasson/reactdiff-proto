@@ -13,6 +13,8 @@
 		2A1D81CD1B1B574F00CE8A9D /* GrayScott.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A1D81CB1B1B574F00CE8A9D /* GrayScott.cpp */; };
 		2A52CAB01B26F6960098F17E /* GradientField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A52CAAE1B26F6960098F17E /* GradientField.cpp */; };
 		2A52CAB41B2D74F10098F17E /* ZoomablePlane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A52CAB21B2D74F10098F17E /* ZoomablePlane.cpp */; };
+		2A52CABD1B301D050098F17E /* OSCListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A52CABB1B301D050098F17E /* OSCListener.cpp */; };
+		2A52CAC01B30273F0098F17E /* RemoteController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A52CABE1B30273F0098F17E /* RemoteController.cpp */; };
 		2A6B580D1B1B552D00FD07DF /* BitmapTextButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A6B57F91B1B552D00FD07DF /* BitmapTextButton.cpp */; };
 		2A6B580E1B1B552D00FD07DF /* SolidColorPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A6B57FB1B1B552D00FD07DF /* SolidColorPanel.cpp */; };
 		2A6B580F1B1B552D00FD07DF /* TextureButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A6B57FD1B1B552D00FD07DF /* TextureButton.cpp */; };
@@ -93,6 +95,10 @@
 		2A52CAAF1B26F6960098F17E /* GradientField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientField.h; sourceTree = "<group>"; };
 		2A52CAB21B2D74F10098F17E /* ZoomablePlane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZoomablePlane.cpp; sourceTree = "<group>"; };
 		2A52CAB31B2D74F10098F17E /* ZoomablePlane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomablePlane.h; sourceTree = "<group>"; };
+		2A52CABB1B301D050098F17E /* OSCListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OSCListener.cpp; sourceTree = "<group>"; };
+		2A52CABC1B301D050098F17E /* OSCListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCListener.h; sourceTree = "<group>"; };
+		2A52CABE1B30273F0098F17E /* RemoteController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RemoteController.cpp; sourceTree = "<group>"; };
+		2A52CABF1B30273F0098F17E /* RemoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteController.h; sourceTree = "<group>"; };
 		2A6B57F91B1B552D00FD07DF /* BitmapTextButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BitmapTextButton.cpp; sourceTree = "<group>"; };
 		2A6B57FA1B1B552D00FD07DF /* BitmapTextButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitmapTextButton.h; sourceTree = "<group>"; };
 		2A6B57FB1B1B552D00FD07DF /* SolidColorPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SolidColorPanel.cpp; sourceTree = "<group>"; };
@@ -425,6 +431,10 @@
 				2A52CAAF1B26F6960098F17E /* GradientField.h */,
 				2A52CAB21B2D74F10098F17E /* ZoomablePlane.cpp */,
 				2A52CAB31B2D74F10098F17E /* ZoomablePlane.h */,
+				2A52CABB1B301D050098F17E /* OSCListener.cpp */,
+				2A52CABC1B301D050098F17E /* OSCListener.h */,
+				2A52CABE1B30273F0098F17E /* RemoteController.cpp */,
+				2A52CABF1B30273F0098F17E /* RemoteController.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -557,6 +567,7 @@
 				2A6B580E1B1B552D00FD07DF /* SolidColorPanel.cpp in Sources */,
 				78DCCE01CA1ECC0F810A1857 /* ofxGuiGroup.cpp in Sources */,
 				B6BF15D1BE7D008A045F1C22 /* ofxLabel.cpp in Sources */,
+				2A52CABD1B301D050098F17E /* OSCListener.cpp in Sources */,
 				56E0EC06162476CFD4D889EF /* ofxPanel.cpp in Sources */,
 				2A52CAB41B2D74F10098F17E /* ZoomablePlane.cpp in Sources */,
 				DA517FABDA67F42EBD35AA8D /* ofxSlider.cpp in Sources */,
@@ -571,6 +582,7 @@
 				74F4B2F96114F547C43F8EA9 /* ofxOscMessage.cpp in Sources */,
 				E7CD44F4788C7F120D05EB35 /* ofxOscParameterSync.cpp in Sources */,
 				AFD853E250ADB382E9A76A4C /* ofxOscReceiver.cpp in Sources */,
+				2A52CAC01B30273F0098F17E /* RemoteController.cpp in Sources */,
 				1110B7683CF26BDDECD16873 /* ofxOscSender.cpp in Sources */,
 				2A6B58131B1B552D00FD07DF /* VirtualTouch.cpp in Sources */,
 				2A52CAB01B26F6960098F17E /* GradientField.cpp in Sources */,

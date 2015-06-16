@@ -198,6 +198,15 @@ void GradientField::onBoolParamChanged(bool &params)
 	bModelColorsDirty = true;
 }
 
+void GradientField::onRemoteParamChanged(RemoteController &controller)
+{
+	int index = controller.index;
+	feedValues[index] = controller.values[0];
+	killValues[index] = controller.values[1];
+	aDiffValues[index] = controller.values[2];
+	bModelColorsDirty = true;
+}
+
 
 
 

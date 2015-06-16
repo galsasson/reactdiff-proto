@@ -17,6 +17,8 @@
 #include "GradientField.h"
 #include "ZoomablePlane.h"
 
+#include "OSCListener.h"
+
 #define A_COLOR ofFloatColor(1, 0, 0)
 #define B_COLOR ofFloatColor(0, 1, 0)
 
@@ -29,6 +31,8 @@ public:
 	GrayScott();
 	~GrayScott();
 
+	void setOscListener(OSCListener* listener);
+
 	void setupGui(ofxPanel& panel);
 	void clearGrid();
 	void seedGrid();
@@ -40,8 +44,8 @@ public:
 	void drawSimulation();
 	void drawDiffusionMap();
 
-private:
 
+private:
 	ofParameterGroup params;
 	ofParameter<int> simSteps;
 	ofParameter<float> timestep;

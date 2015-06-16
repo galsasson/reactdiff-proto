@@ -5,6 +5,7 @@
 #include "ofxGui.h"
 
 #include "GrayScott.h"
+#include "OSCListener.h"
 
 using namespace ofxInterface;
 
@@ -32,6 +33,8 @@ class ofApp : public ofBaseApp{
 	ofParameter<float> scale;
 	ofVec2f translate;
 	GrayScott* grayScott;
+
+	OSCListener* oscListener;
 
 //	ofEasyCam cam;
 	ofCamera cam;

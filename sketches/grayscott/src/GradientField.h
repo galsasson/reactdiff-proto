@@ -13,6 +13,8 @@
 #include "ofMain.h"
 #include "ofxInterface.h"
 
+#include "RemoteController.h"
+
 using namespace ofxInterface;
 
 class GradientField : public ofxInterface::Node
@@ -22,11 +24,12 @@ public:
 
 	ofTexture& getTexture();
 
-
 	void update(float dt);
 	void draw();
 
 	ofParameterGroup params;
+
+	void onRemoteParamChanged(RemoteController& controller);
 
 private:
 

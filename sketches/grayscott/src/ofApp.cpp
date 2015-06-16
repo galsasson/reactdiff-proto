@@ -37,7 +37,14 @@ void ofApp::setup()
 	TouchManager::one().setup(&scene);
 	scene.setSize(ofGetWindowWidth(), ofGetWindowHeight());
 
+	oscListener = new OSCListener();
+	oscListener->setup();
+	oscListener->setPlane(10);
+	oscListener->setPosition(ofGetWindowWidth()-oscListener->getWidth(), ofGetWindowHeight()/2);
+	scene.addChild(oscListener);
+
 	grayScott = new GrayScott();
+	grayScott->setOscListener(oscListener);
 	scene.addChild(grayScott);
 
 	grayScott->setupGui(gui);
@@ -50,6 +57,8 @@ void ofApp::setup()
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	oscListener->processMessages();
+
 	grayScott->setScale(scale);
 	grayScott->setPosition(
 						   (ofGetWindowWidth() - grayScott->getLocalWidth()) / 2 + translate.x,
