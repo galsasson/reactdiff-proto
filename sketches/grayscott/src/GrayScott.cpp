@@ -74,10 +74,12 @@ GrayScott::GrayScott()
 
 void GrayScott::setOscListener(OSCListener *listener)
 {
-	vector<RemoteController*> clers = listener->getControllers();
-	for (int i=0; i<clers.size(); i++) {
-		ofAddListener(clers[i]->eventParamChanged, &gradField, &GradientField::onRemoteParamChanged);
-	}
+	gradField.setRemoteControllers(listener->getControllers());
+}
+
+ofParameterGroup& GrayScott::getSimulationParams()
+{
+	return gradField.params;
 }
 
 void GrayScott::setupGui(ofxPanel& panel)

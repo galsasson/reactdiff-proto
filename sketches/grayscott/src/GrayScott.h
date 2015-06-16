@@ -32,6 +32,7 @@ public:
 	~GrayScott();
 
 	void setOscListener(OSCListener* listener);
+	ofParameterGroup& getSimulationParams();
 
 	void setupGui(ofxPanel& panel);
 	void clearGrid();

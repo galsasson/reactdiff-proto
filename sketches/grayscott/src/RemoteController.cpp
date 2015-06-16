@@ -29,8 +29,7 @@ void RemoteController::setHost(const string& _ip, int _port)
 	bConnected = true;
 
 	setConnectedLED(1);
-	float vals[] = {0, 0, 0};
-	setValues(vals);
+	setValues(values);
 }
 
 void RemoteController::setValues(float vals[MAX_VALS])

@@ -79,6 +79,14 @@ void GradientField::draw()
 	ofPopMatrix();
 }
 
+void GradientField::setRemoteControllers(vector<RemoteController *> _controllers)
+{
+	controllers = _controllers;
+	for (int i=0; i<controllers.size(); i++) {
+		ofAddListener(controllers[i]->eventParamChanged, this, &GradientField::onRemoteParamChanged);
+	}
+}
+
 void GradientField::allocateFbo()
 {
 	ofFbo::Settings s;
@@ -191,11 +199,26 @@ void GradientField::setDefaults()
 void GradientField::onFloatParamChanged(float &param)
 {
 	bModelColorsDirty = true;
+	updateRemoteControllers();
 }
 
 void GradientField::onBoolParamChanged(bool &params)
 {
 	bModelColorsDirty = true;
+}
+
+void GradientField::updateRemoteControllers()
+{
+	for (int i=0; i<controllers.size(); i++) {
+		float vals[3];
+		ofParameter<float> v1 = params.get<float>("Feed_" + ofToString(i+1));
+		vals[0] = v1;
+		ofParameter<float> v2 = params.get<float>("Kill_" + ofToString(i+1));
+		vals[1] = v2;
+		ofParameter<float> v3 = params.get<float>("Diffusion_" + ofToString(i+1));
+		vals[2] = v3;
+		controllers[i]->setValues(vals);
+	}
 }
 
 void GradientField::onRemoteParamChanged(RemoteController &controller)

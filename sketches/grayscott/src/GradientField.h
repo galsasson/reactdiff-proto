@@ -29,7 +29,7 @@ public:
 
 	ofParameterGroup params;
 
-	void onRemoteParamChanged(RemoteController& controller);
+	void setRemoteControllers(vector<RemoteController*> controllers);
 
 private:
 
@@ -59,5 +59,9 @@ private:
 	void setDefaults();
 	void onFloatParamChanged(float& param);
 	void onBoolParamChanged(bool& params);
+
+	vector<RemoteController*> controllers;
+	void updateRemoteControllers();
+	void onRemoteParamChanged(RemoteController& controller);
 };
 #endif /* defined(__grayscott__GradientField__) */
