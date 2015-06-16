@@ -41,6 +41,7 @@ private:
 	ofxOscSender sender;
 
 	void setConnectedLED(float val);
+	void setUserLabel(const string& str);
 };
 
 

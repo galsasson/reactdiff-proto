@@ -13,6 +13,7 @@ int RemoteController::GlobalIndex = 0;
 RemoteController::~RemoteController()
 {
 	setConnectedLED(0);
+	setUserLabel("User ?");
 }
 
 RemoteController::RemoteController()
@@ -29,6 +30,7 @@ void RemoteController::setHost(const string& _ip, int _port)
 	bConnected = true;
 
 	setConnectedLED(1);
+	setUserLabel("User " + ofToString(index+1));
 	setValues(values);
 }
 
@@ -85,5 +87,17 @@ void RemoteController::setConnectedLED(float val)
 	ofxOscMessage msg;
 	msg.setAddress("/reacdiff/connected-led");
 	msg.addFloatArg(val);
+	sender.sendMessage(msg);
+}
+
+void RemoteController::setUserLabel(const string& str)
+{
+	if (!bConnected) {
+		return;
+	}
+
+	ofxOscMessage msg;
+	msg.setAddress("/reacdiff/user-label");
+	msg.addStringArg(str);
 	sender.sendMessage(msg);
 }

@@ -63,5 +63,6 @@ private:
 	vector<RemoteController*> controllers;
 	void updateRemoteControllers();
 	void onRemoteParamChanged(RemoteController& controller);
+	bool bIgnoreParamChange;
 };
 #endif /* defined(__grayscott__GradientField__) */

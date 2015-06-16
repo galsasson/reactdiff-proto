@@ -24,6 +24,7 @@ void GradientField::setup(float w, float h)
 
 	bModelColorsDirty = true;
 	bFboDirty = true;
+	bIgnoreParamChange = false;
 }
 
 ofTexture& GradientField::getTexture()
@@ -199,7 +200,9 @@ void GradientField::setDefaults()
 void GradientField::onFloatParamChanged(float &param)
 {
 	bModelColorsDirty = true;
-	updateRemoteControllers();
+	if (!bIgnoreParamChange) {
+		updateRemoteControllers();
+	}
 }
 
 void GradientField::onBoolParamChanged(bool &params)
@@ -223,10 +226,15 @@ void GradientField::updateRemoteControllers()
 
 void GradientField::onRemoteParamChanged(RemoteController &controller)
 {
+	bIgnoreParamChange = true;
+
 	int index = controller.index;
 	feedValues[index] = controller.values[0];
 	killValues[index] = controller.values[1];
 	aDiffValues[index] = controller.values[2];
+
+	bIgnoreParamChange = false;
+
 	bModelColorsDirty = true;
 }
 
